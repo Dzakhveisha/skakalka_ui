@@ -1,0 +1,47 @@
+<app-skakalka-header-search-form></app-skakalka-header-search-form>
+
+
+<div *ngIf="slots.length > 0">
+  <table style="width: 95%; margin: auto" class="text-center mb-5 table align-middle table-hover table-responsive">
+    <thead>
+    <tr class="table-primary">
+      <th class="text-start" scope="col">Место проведения</th>
+      <th scope="col">Дата и время</th>
+      <th scope="col">Занятие</th>
+      <th scope="col">Свободных мест</th>
+      <th scope="col">Цена</th>
+      <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let slot of slots">
+      <td class="text-start">
+        <b [textContent]="slot.gym.name"></b>
+        <p [textContent]="slot.gym.city + ', ' + slot.gym.street + ', ' + slot.gym.buildingNumber"></p>
+      </td>
+      <td>
+        <p [textContent]="slot.date.toString()"></p>
+        <p [textContent]="slot.startTime + ' - ' + slot.finishTime"></p>
+      </td>
+      <td >
+        <p>{{slot.specialization.name}}</p>
+        <p>
+          Тренер:
+          <a routerLink="/trainerInfo">{{slot.trainer.firstName + ' ' + slot.trainer.secondName}}</a>
+        </p>
+      </td>
+      <td> {{slot.maxClientCount - slot.curClientCount + '/'+ slot.maxClientCount}}</td>
+      <td> {{slot.price + ' руб.'}}</td>
+      <td> <button style=" background-color: #fd9f01" class="btn btn-outline-light" (click)="onBookSlot(slot.id)">Записаться</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="text-center" *ngIf="slots.length < 1">
+  <h3>К сожалению, мы ничего не нашли :(</h3>
+  <p>Попробуйте изменить значения фильтров.</p>
+  <img class="m-5" width="750" height="500"
+       src="../../assets/img/Happy people in air balloon flat vector illustration.jpg">
+</div>
+

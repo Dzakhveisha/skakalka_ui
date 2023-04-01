@@ -1,0 +1,50 @@
+<main>
+  <div class="formContainer container">
+    <form role="form" (ngSubmit)="onSubmit()"
+          id="loginForm" class=" row justify-content-center align-items-cent">
+      <img height="25%" width="25%" src="../../assets/img/Happy%20kids%20jumping%20rope.jpg">
+      <div class="form-group">
+        <label for="firstname" class="form-label">Имя <span style="color: red">*</span></label>
+        <input id="firstname" name="firstname" [(ngModel)]="newUser.firstname"
+               class="form-control form-control mx-auto mb-2" type="text" required>
+      </div>
+      <div class="form-group mb-3">
+        <label for="secondname" class="form-label">Фамилия <span style="color: red">*</span></label>
+        <input id="secondname" name="secondname" [(ngModel)]="newUser.secondName"
+               class="form-control form-control mx-auto mb-2" type="text" required>
+      </div>
+      <div class="form-group my-3">
+        <label for="login" class="form-label">Логин <span style="color: red">*</span></label>
+        <div id="loginlHelp" class=" form-text">Придумайте уникальный идентификатор пользователя (например dasha_sport) или используйте свою электронную почту.</div>
+        <input id="login" name="login" [(ngModel)]="newUser.login"
+               class="form-control form-control mx-auto mb-2" type="text" required>
+      </div>
+      <div class="form-group my-3">
+        <label for="login" class="form-label">Пароль <span style="color: red">*</span></label>
+        <div id="passwordlHelp" class=" form-text"> Старайтесь использовать надежные пароли.</div>
+        <input id="password" name="password" [(ngModel)]="newUser.password"
+               class="form-control form-control mx-auto mb-2" type="password" required>
+      </div>
+      <div class="form-group my-3">
+        <label for="login" class="form-label">E-mail</label>
+        <div id="mailHelp" class=" form-text">Будет использоваться для напоминаний о тренировках.</div>
+        <input id="mail" name="mail" [(ngModel)]="newUser.mail"
+               class="form-control form-control mx-auto mb-2" type="email">
+      </div>
+      <div class="form-group my-3">
+        <label for="login" class="form-label">Дата рождения</label>
+        <input id="birthdate" name="birthdate" [(ngModel)]="newUser.birthdate"
+               class="form-control form-control mx-auto mb-2" type="date">
+      </div>
+      <div class="row g-3 p-4" *ngIf="error.errorMessage !== ''">
+        {{error.errorMessage}}
+      </div>
+      <input id="loginSubmit" class="form-control form-control mx-auto my-3" type="submit" value="Зарегистрироваться">
+      <div id="registerBtn">
+        <p>или, если у вас уже есть аккаунт</p>
+        <a class="btn btn-light" routerLink="/login"> Войти </a>
+      </div>
+    </form>
+  </div>
+</main>
+

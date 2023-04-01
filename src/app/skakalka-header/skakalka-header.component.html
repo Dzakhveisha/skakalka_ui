@@ -1,0 +1,55 @@
+<header style="background-color: #e9f2f9">
+  <nav class="navbar navbar-expand-md navbar-light">
+    <div class=" container-fluid">
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav mx-auto ">
+          <li class="nav-item">
+            <a  routerLink="" class="nav-link">
+              <img height="82" width="270" src="../../assets/img/logo_test.png">
+            </a>
+          </li>
+        </ul>
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a routerLink="/slots" class="nav-link">
+              Тренировки
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="" class="nav-link">
+              Спортивные организации
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="" class="nav-link">
+              Тренера
+            </a>
+          </li>
+
+          <li *ngIf="!isUserAuth()" class="nav-item mx-2">
+            <a  routerLink="/login" class="nav-link">
+              <span class="material-icons"><span class="material-icons-outlined">person</span></span>
+            </a>
+          </li>
+
+          <li *ngIf="isUserAuth()" class="nav-item dropdown">
+            <a routerLink="/myAccount" class="nav-link">
+              <span class="material-icons"><span class="material-icons-outlined">account_circle</span></span>
+            </a>
+          </li>
+          <li *ngIf="isUserAuth()" class="nav-item dropdown">
+            <a routerLink="/myAccount" class="nav-link">
+              <span class="material-icons"><span class="material-icons-outlined">chat</span></span>
+            </a>
+          </li>
+
+          <li  class="nav-item">
+            <a class="nav-link" routerLink="/">
+              <span class="material-icons"><span class="material-icons-outlined">question_mark</span></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

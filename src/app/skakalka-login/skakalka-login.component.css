@@ -1,0 +1,26 @@
+.formContainer{
+  position: relative;
+}
+
+#loginForm{
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%,3%);
+  width:40%;
+  min-width: 300px;
+  background-color: white;
+  padding: 5%;
+}
+
+#loginSubmit{
+  background-color: #fd9f01;
+}
+
+app-big-logo{
+  text-align: center;
+}
+
+#registerBtn{
+  text-align: center;
+}
