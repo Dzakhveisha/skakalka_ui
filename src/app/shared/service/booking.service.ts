@@ -22,7 +22,8 @@ export class BookingService {
   }
 
   getAvailableSlots(slotCriteria: SlotCriteria): Observable<Slot[]> {
-    return this.http.request<Slot[]>("GET",this.slotsUrl, {body: slotCriteria, headers: this.getHeadersWithAuth()});
+    console.log(slotCriteria)
+    return this.http.request<Slot[]>("PUT",this.slotsUrl, {body: slotCriteria, headers: this.getHeadersWithAuth()});
   }
 
 }

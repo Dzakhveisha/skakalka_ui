@@ -1,18 +1,19 @@
 import {Time} from "@angular/common";
 
 export interface SlotCriteria{
-  date: string;
-  startTimeFrom: Time;
-  startTimeTo: Time;
-  specialization: number; //get id from select
-  priceFrom: number;
-  priceTo: number;
+  date: string | null;
+  startTimeFrom: string | null;
+  startTimeTo: string | null;
+  specialization: number | null; //get id from select
+  priceFrom: number | null;
+  priceTo: number | null;
   isIndividual: boolean;
 
-  trainerRank: string; //select
-  trainerEducation: string;
-  trainerExperienceFrom: number;
+  trainerExperienceFrom: number | null;
+  trainerGender: string | null;
+  trainerAgeFrom: string | null;
+  trainerAgeTo: string | null;
 
-  gymRegion:number; // get Id from select
-  gymOrganisation: number; //get ID from select
+  gymOrganisation: number | null; //get ID from select
+  gymRegion: number | null; // get Id from select
 }

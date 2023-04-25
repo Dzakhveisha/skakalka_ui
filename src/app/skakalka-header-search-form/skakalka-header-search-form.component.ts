@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SlotCriteria} from "../shared/model/slotCriteria";
-import {Time} from "@angular/common";
-import {AuthService} from "../shared/service/auth.service";
 import {Router} from "@angular/router";
-import {FormBuilder} from "@angular/forms";
+import {Specialization} from "../shared/model/Slot";
+import {RefdataService} from "../shared/service/refdata.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {CityRegion} from "../shared/model/Gym";
+import {OrganisationName} from "../shared/model/Organisation";
 
 @Component({
   selector: 'app-skakalka-header-search-form',
@@ -11,38 +13,80 @@ import {FormBuilder} from "@angular/forms";
   styleUrls: ['./skakalka-header-search-form.component.css']
 })
 export class SkakalkaHeaderSearchFormComponent implements OnInit {
+  manConstValue: string = "m"
+  womenConstValue: string = "w"
 
-  criteria: SlotCriteria = {
-    date: "",
-    startTimeFrom: {hours: 12, minutes: 0},
-    startTimeTo: {hours: 13, minutes: 0},
-    specialization: 0, //get id from select
-    priceFrom: 0,
-    priceTo: 1000,
-    isIndividual: false,
+  priceFrom: number = 0;
+  priceTo: number = 100;
 
-    trainerRank: "", //select
-    trainerEducation: "", // number for enum
-    trainerExperienceFrom: 0,
+  timeFrom = {hour: null, minute: null};
+  timeTo = {hour: null, minute: null};
 
-    gymRegion: 0, // get Id from select
-    gymOrganisation: 0, //get ID from select
+  @Input() criteria!: SlotCriteria;
+  @Output() criteriaChange = new EventEmitter<SlotCriteria>();
 
-  }
+  specializations: Specialization[] = [];
+  cityRegions: CityRegion[] = [];
+  organisations: OrganisationName[] = [];
+  panelOpenState: boolean = false;
+  mainPanelOpenState: boolean = true;
 
-  time = {hour: 14, minute: 30};
 
-  time2 = {hour: 15, minute: 30};
-
-  constructor(private router: Router) {
+  constructor(private router: Router, private  refdataService: RefdataService) {
   }
 
   ngOnInit(): void {
 
+    this.refdataService.getAllSpecializations().subscribe({
+      next: (spec: Specialization[]) => {
+        this.specializations = spec;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error)
+        alert(error.message)
+      }
+    });
+
+    this.refdataService.getAllCityRegions().subscribe({
+      next: (spec: CityRegion[]) => {
+        this.cityRegions = spec;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error)
+        alert(error.message)
+      }
+    });
+
+    this.refdataService.getAllOrgNames().subscribe({
+      next: (spec: OrganisationName[]) => {
+        this.organisations = spec;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error)
+        alert(error.message)
+      }
+    });
+
+
   }
 
   onSubmit() {
-    this.router.navigateByUrl('/slots');
+    console.log(this.timeTo)
+
+    function resolveTimeToString(time: { hour: number | null; minute: number | null }) {
+      if (time == null || time.hour == null) {
+        return null;
+      }
+      if (time.minute == null || time.minute == 0) {
+        return `${time.hour}:00`
+      }
+      return `${time.hour}:${time.minute}`
+    }
+
+    this.criteria.startTimeFrom = resolveTimeToString(this.timeFrom);
+    this.criteria.startTimeTo = resolveTimeToString(this.timeTo);
+    console.log(this.criteria)
+    this.criteriaChange.emit(this.criteria);
   }
 
   onChangeSelect($event: Event) {

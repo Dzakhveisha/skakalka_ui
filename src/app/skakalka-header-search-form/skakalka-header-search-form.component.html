@@ -1,39 +1,140 @@
-<div class=" py-2" >
-  <form (ngSubmit)="onSubmit()" class="container mx-5 my-4">
-    <div class="d-flex justify-content-center">
-      <div class="col flex-column my-3 mx-3">
-        <label for="specialization" class="form-label"> Тип тренировки </label>
-        <select (change)="onChangeSelect($event)"  name="username" [(ngModel)]="criteria.specialization"
-                id="specialization" class="form-control form-select form-select-sm" aria-label=".form-select-sm example">
-        </select>
-      </div>
-      <div class="col flex-column my-3 mx-2">
-        <label class="form-label" for="region"> Район города </label>
-        <select (change)="onChangeSelect($event)"
-                id="region" class="form-control form-control form-select form-select-sm" aria-label=".form-select-sm example">
-        </select>
-      </div>
-      <div class="col flex-column my-3 mx-2">
-        <label class="form-label" class="form-label" for="date"> Дата </label>
-        <div>
-          <input class="form-control" id="date" (input)="onChangeInput($event)" type="date">
+<div class="margin:0px auto; width: 100%">
+  <form (ngSubmit)="onSubmit()" class="container mx-5 my-4" style="margin: 3% auto!important; width: 100%">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]='true' (opened)="mainPanelOpenState = false"
+                           (closed)="mainPanelOpenState = true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Основные критерии
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="d-flex justify-content-around align-items-center">
+          <mat-form-field appearance="fill">
+            <mat-label>Тип тренировки</mat-label>
+            <mat-select (change)="onChangeSelect($event)" name="specialization" [(ngModel)]="criteria.specialization"
+                        id="specialization"
+                        aria-label=".form-select-sm example">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let specialization of specializations" [value]="specialization.id">
+                {{specialization.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Организация</mat-label>
+            <mat-select (change)="onChangeSelect($event)" name="organisation" [(ngModel)]="criteria.gymOrganisation"
+                        id="gymOrganisation">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let org of organisations" [value]="org.id">
+                {{org.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Район города</mat-label>
+            <mat-select (change)="onChangeSelect($event)" name="region" [(ngModel)]="criteria.gymRegion"
+                        id="region">
+              <mat-option>None</mat-option>
+              <mat-option *ngFor="let region of cityRegions" [value]="region.id">
+                {{region.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="flex-column">
+            <div>
+              <label class="form-label mb-0" for="priceFrom"> Цена (руб.)</label>
+            </div>
+            <mat-slider discrete min="{{priceFrom}}" max="{{priceTo}}">
+              <input matSliderStartThumb id="priceFrom" name="priceFrom" [(ngModel)]="criteria.priceFrom">
+              <input matSliderEndThumb id="priceTo" name="priceTo" [(ngModel)]="criteria.priceTo">
+            </mat-slider>
+          </div>
+
+          <div class="form-check my-auto">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                   name="isIndividual" [(ngModel)]="criteria.isIndividual">
+            <label class="form-check-label" for="flexCheckDefault">
+              Индивидуальное занятие
+            </label>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="d-flex justify-content-center">
-      <div class="flex-column my-3 mx-3">
-        <label class="form-label"> Время начала</label>
-        <div>
-          <ngb-timepicker id='timeStart' [(ngModel)]="time"></ngb-timepicker>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Дата и время
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="d-flex justify-content-around align-items-center">
+          <mat-form-field appearance="fill">
+            <mat-label>Дата</mat-label>
+            <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="criteria.date">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <!-- #enddocregion toggle -->
+          </mat-form-field>
+          <div class="flex-column text-center">
+            <div class="d-flex align-items-center">
+              <div class="mx-2">
+                <ngb-timepicker id='timeStart' name="timeStart" [(ngModel)]="timeFrom"></ngb-timepicker>
+              </div>
+              <div>
+                <ngb-timepicker id='timeEnd' name="timeEnd" [(ngModel)]="timeTo"></ngb-timepicker>
+              </div>
+            </div>
+            <div class="mx-1 text-muted">
+              <label>* Промежуток времени начала занятия</label>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="flex-column my-3 mx-3">
-        <label class="form-label"> Время конца</label>
-        <div>
-          <ngb-timepicker id='timeStart' [(ngModel)]="time"></ngb-timepicker>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Тренер
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="d-flex  justify-content-around align-items-center">
+          <mat-chip-listbox name="trainerGender" [(ngModel)]="criteria.trainerGender" aria-label="Fish selection">
+            <mat-chip-option [value]="manConstValue">Мужчина</mat-chip-option>
+            <mat-chip-option [value]="womenConstValue">Женщина</mat-chip-option>
+          </mat-chip-listbox>
+
+          <div class="flex-column">
+            <div>
+              <label class="form-label mb-0" for="priceFrom"> Опыт не менее</label>
+            </div>
+            <mat-slider discrete min="1" max="10">
+              <input matSliderThumb id="tRate" name="trainerRate" [(ngModel)]="criteria.trainerExperienceFrom">
+            </mat-slider>
+          </div>
+
+          <div class="flex-column">
+            <div>
+              <label class="form-label mb-0" for="priceFrom"> Возраст</label>
+            </div>
+            <mat-slider discrete min="18" max="70">
+              <input matSliderStartThumb id="фпуFrom" name="priceFrom" [(ngModel)]="criteria.trainerAgeFrom">
+              <input matSliderEndThumb id="фпуTo" name="priceTo" [(ngModel)]="criteria.trainerAgeTo">
+            </mat-slider>
+          </div>
         </div>
-      </div>
-    </div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
     <div class="my-5 pb-5 d-flex justify-content-center">
       <button type="submit" style=" background-color: #fd9f01" class="btn btn-outline-light">
         Поиск

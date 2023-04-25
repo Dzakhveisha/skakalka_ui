@@ -10,3 +10,8 @@ export interface Organisation{
   unicBusinessNumber: string;
   subscription: SkakalkaSubscription;
 }
+
+export interface OrganisationName {
+  id: number;
+  name: string;
+}

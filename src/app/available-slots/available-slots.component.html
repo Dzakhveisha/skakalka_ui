@@ -1,5 +1,4 @@
-<app-skakalka-header-search-form></app-skakalka-header-search-form>
-
+<app-skakalka-header-search-form [criteria]="criteria" (criteriaChange)="updateList(criteria)" ></app-skakalka-header-search-form>
 
 <div *ngIf="slots.length > 0">
   <table style="width: 95%; margin: auto" class="text-center mb-5 table align-middle table-hover table-responsive">

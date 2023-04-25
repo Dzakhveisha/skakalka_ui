@@ -15,21 +15,23 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class AvailableSlotsComponent implements OnInit {
 
   slots: Slot[];
+
   criteria: SlotCriteria = {
-    date: "",
-    startTimeFrom:  {hours : 10, minutes:0},
-    startTimeTo: {hours : 11, minutes:0},
-    specialization: 1, //get id from select
-    priceFrom: 10,
-    priceTo: 100,
+    date: null,
+    startTimeFrom: null,
+    startTimeTo: null,
+    specialization: null, //get id
+    priceFrom: null,
+    priceTo: null,
     isIndividual: false,
 
-    trainerRank: "", //select
-    trainerEducation: "",
-    trainerExperienceFrom: 1,
+    trainerAgeFrom: null,
+    trainerAgeTo: null,
+    trainerExperienceFrom: null,
+    trainerGender: null,
 
-    gymRegion: 1, // get Id from select
-    gymOrganisation: 0 //get ID from select
+    gymRegion: null, // get Id from select
+    gymOrganisation: null, //get ID from select
   }
 
   constructor(private bookingService: BookingService) {
@@ -43,12 +45,26 @@ export class AvailableSlotsComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         console.log(error)
-        alert(error)
+        alert(error.message)
       }
     });
   }
 
   onBookSlot(id: number) {
+
+  }
+
+  updateList(criteria: SlotCriteria) {
+    this.criteria = criteria;
+    this.bookingService.getAvailableSlots(this.criteria).subscribe({
+      next: (slotsN: Slot[]) => {
+        this.slots = slotsN;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error)
+        alert(error.message)
+      }
+    });
 
   }
 }

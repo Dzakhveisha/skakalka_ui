@@ -11,5 +11,10 @@ export interface Gym{
   organisation: Organisation;
   comfortClientsCount: number;
   rate: number;
-  cityRegionId: number;
+  cityRegion: CityRegion;
+}
+
+export interface CityRegion {
+  id: number;
+  name: string;
 }
