@@ -5,7 +5,7 @@
                            (closed)="mainPanelOpenState = true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Основные критерии
+            Основные критерии Тренировок
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="d-flex justify-content-around align-items-center">
@@ -14,7 +14,7 @@
             <mat-select (change)="onChangeSelect($event)" name="specialization" [(ngModel)]="criteria.specialization"
                         id="specialization"
                         aria-label=".form-select-sm example">
-              <mat-option>None</mat-option>
+              <mat-option>-</mat-option>
               <mat-option *ngFor="let specialization of specializations" [value]="specialization.id">
                 {{specialization.name}}
               </mat-option>
@@ -25,7 +25,7 @@
             <mat-label>Организация</mat-label>
             <mat-select (change)="onChangeSelect($event)" name="organisation" [(ngModel)]="criteria.gymOrganisation"
                         id="gymOrganisation">
-              <mat-option>None</mat-option>
+              <mat-option>-</mat-option>
               <mat-option *ngFor="let org of organisations" [value]="org.id">
                 {{org.name}}
               </mat-option>
@@ -35,7 +35,7 @@
             <mat-label>Район города</mat-label>
             <mat-select (change)="onChangeSelect($event)" name="region" [(ngModel)]="criteria.gymRegion"
                         id="region">
-              <mat-option>None</mat-option>
+              <mat-option>-</mat-option>
               <mat-option *ngFor="let region of cityRegions" [value]="region.id">
                 {{region.name}}
               </mat-option>

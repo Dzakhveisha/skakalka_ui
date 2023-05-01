@@ -26,12 +26,18 @@
         <p>{{slot.specialization.name}}</p>
         <p>
           Тренер:
-          <a routerLink="/trainerInfo">{{slot.trainer.firstName + ' ' + slot.trainer.secondName}}</a>
+          <a [routerLink]="['/trainerInfo/user/', slot.trainer.id]">
+            {{slot.trainer.firstName + ' ' + slot.trainer.secondName}}
+          </a>
         </p>
       </td>
       <td> {{slot.maxClientCount - slot.curClientCount + '/'+ slot.maxClientCount}}</td>
       <td> {{slot.price + ' руб.'}}</td>
-      <td> <button style=" background-color: #fd9f01" class="btn btn-outline-light" (click)="onBookSlot(slot.id)">Записаться</button></td>
+      <td>
+        <button *ngIf = "isClient()" style=" background-color: #fd9f01" class="btn btn-outline-light" (click)="onBookSlot(slot.id)">
+          Записаться
+        </button>
+      </td>
     </tr>
     </tbody>
   </table>

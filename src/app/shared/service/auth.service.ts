@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {JWTToken} from "../model/AccessToken";
 import {Observable} from "rxjs";
 import {JwtHelperService, JwtModule} from "@auth0/angular-jwt";
-import {User} from "../model/User";
+import {User, UserRole} from "../model/User";
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +37,22 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired();
   }
 
-  getAuthUser(): Observable<any> {
+  isAuthenticatedWithRole( role: UserRole) {
+    if (!this.jwtHelper.isTokenExpired()) {
+      return Number(localStorage.getItem("userRoleId")) == role.valueOf()
+    }
+    return false;
+  }
+
+  getAuthUser(): Observable<User> {
       console.log(this.jwtHelper.decodeToken().sub)
       const username = this.jwtHelper.decodeToken().sub;
       return this.http.get<User>(this.usersUrl + username, {headers: this.getHeadersWithAuth()});
   }
+
+  logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRoleId")
+  }
+
 }

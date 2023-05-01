@@ -1,11 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {Slot} from "../shared/model/Slot";
-import {Time} from "@angular/common";
-import {Gym} from "../shared/model/Gym";
 import {BookingService} from "../shared/service/booking.service";
 import {SlotCriteria} from "../shared/model/slotCriteria";
-import {JWTToken} from "../shared/model/AccessToken";
 import {HttpErrorResponse} from "@angular/common/http";
+import {AuthService} from "../shared/service/auth.service";
+import {UserRole} from "../shared/model/User";
+import {Router} from "@angular/router";
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {getLessonStatusById, Lesson} from "../shared/model/Lesson";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {SkakalkaMyLessonDialog} from "../skakalka-my-account/skakalka-my-account.component";
+
 
 @Component({
   selector: 'app-available-slots',
@@ -34,7 +39,8 @@ export class AvailableSlotsComponent implements OnInit {
     gymOrganisation: null, //get ID from select
   }
 
-  constructor(private bookingService: BookingService) {
+  constructor(private bookingService: BookingService, private authService: AuthService,
+              private router: Router, private jwtHelper: JwtHelperService, public dialog: MatDialog) {
     this.slots = [];
   }
 
@@ -43,28 +49,64 @@ export class AvailableSlotsComponent implements OnInit {
       next: (slotsN: Slot[]) => {
         this.slots = slotsN;
       },
-      error: (error: HttpErrorResponse) => {
-        console.log(error)
-        alert(error.message)
+      error: (err: HttpErrorResponse) => {
+        console.log("lol " + err.error.errorMessage + err.error.errorCode)
+        alert(err.error.errorMessage)
       }
     });
   }
 
   onBookSlot(id: number) {
-
+    if (this.authService.isAuthenticatedWithRole(UserRole.CLIENT)) {
+      const username = this.jwtHelper.decodeToken().sub;
+      this.bookingService.bookLesson(id, username).subscribe({
+          next: (l: Lesson) => {
+            this.dialog.open(SkakalkaMyLessonDialog, {
+              data: l
+            })
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log("lol " + err.error.errorMessage + err.error.errorCode)
+            alert(err.error.errorMessage)
+          }
+        }
+      )
+    } else {
+      this.router.navigateByUrl('/login');
+    }
+    return false
   }
 
-  updateList(criteria: SlotCriteria) {
+  updateList(criteria: SlotCriteria
+  ) {
     this.criteria = criteria;
     this.bookingService.getAvailableSlots(this.criteria).subscribe({
       next: (slotsN: Slot[]) => {
         this.slots = slotsN;
       },
-      error: (error: HttpErrorResponse) => {
-        console.log(error)
-        alert(error.message)
+      error: (err: HttpErrorResponse) => {
+        console.log("lol " + err.error.errorMessage + err.error.errorCode)
+        alert(err.error.errorMessage)
       }
     });
 
   }
+
+  isClient() {
+    return  this.authService.isAuthenticatedWithRole(UserRole.CLIENT) || !this.authService.isAuthenticated()
+  }
 }
+
+
+@Component({
+  selector: 'skakalka-booked-lesson-dialog',
+  templateUrl: 'skakalka-booked-lesson-dialog.html',
+})
+export class SkakalkaBookedLessonDialog {
+  stringStatus: string | undefined;
+
+  constructor(public dialogRef: MatDialogRef<SkakalkaBookedLessonDialog>, @Inject(MAT_DIALOG_DATA) public lesson: Lesson) {
+    this.stringStatus = getLessonStatusById(this.lesson.statusId);
+  }
+}
+

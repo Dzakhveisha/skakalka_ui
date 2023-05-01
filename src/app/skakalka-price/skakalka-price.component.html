@@ -1,0 +1,16 @@
+<div class="p-2 d-flex justify-content-center align-self-center flex-wrap">
+  <mat-card style="background-color: aliceblue; min-width: 40%; max-width: 40%"
+            *ngFor="let subscription of subscriptions" class="m-4 example-card">
+    <mat-card-header>
+      <mat-card-title>{{subscription.name}}</mat-card-title>
+      <mat-card-subtitle><p>{{subscription.description}}</p></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+    </mat-card-content>
+    <mat-card-footer class = "d-flex mx-3">
+      <p class="me-md-4">месяц: {{subscription.monthPrice}} руб. </p>
+      <p *ngIf="!(subscription.yearPrice == null)">год: {{subscription.yearPrice}} руб.</p>
+    </mat-card-footer>
+  </mat-card>
+</div>

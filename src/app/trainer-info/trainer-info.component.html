@@ -1,0 +1,55 @@
+<main class="px-5" xmlns="http://www.w3.org/1999/html">
+  <div class="d-flex">
+    <div class="d-flex flex-column justify-content-center">
+      <span class="material-icons md-240 gr"><span class="material-icons-outlined ">account_box</span></span>
+      <div style="text-align: center">
+<!--        <button class="btn btn-light mx-1 h">-->
+<!--          <span class="material-icons wh"><span class="material-icons-outlined">edit</span></span>-->
+<!--        </button>-->
+        <div class="w-100 d-flex align-items-center align-content-around justify-content-center align-self-stretch">
+          <button mat-button style=" background-color: #fd9f01" class=" align-items-center">
+            <span class="material-icons"><span class="material-icons-outlined">chat</span></span>
+          </button>
+          <button *ngIf="isClient()" style=" background-color: #fd9f01" class="btn btn-outline-light" (click)="onRequestLesson(trainer.id)">Запрос на занятие</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="my-5 mx-2">
+      <span><strong>Логин: </strong></span> <span>{{trainer?.user?.login}}</span><br>
+      <span><strong>Имя: </strong></span> <span>{{trainer?.user?.firstName}}</span><br>
+      <span><strong>Фамилия: </strong></span> <span>{{trainer?.user?.secondName}}</span><br>
+      <span><strong>День рождения: </strong></span> <span>{{trainer?.user?.birthDate}}</span><br>
+      <span><strong>Телефон: </strong></span> <span>{{trainer?.phoneNumber}}</span><br>
+      <hr>
+      <span class="d-flex align-items-center">
+        <strong>Рейтинг: </strong>
+        <span> {{trainer?.user?.rate}}</span>
+        <span class="material-icons"><span class="material-icons-outlined">star</span></span>
+      </span>
+    </div>
+
+    <div class="my-5 mx-5">
+      <span><strong>Направления: </strong></span>
+      <span *ngFor="let s of trainer?.specializations; last as isLast">
+              {{s.name}}
+         <span *ngIf="!isLast">, </span>
+            </span>
+      <br>
+      <span><strong>Организация: </strong></span>
+      <span *ngIf="trainer?.organisation == undefined"> - </span>
+          <span>{{trainer?.organisation?.name}}</span><br>
+      <span><strong>Основной спортзал: </strong></span> <span>{{trainer?.defaultGym?.name}}</span><br>
+      <span><strong>Количество клиентов на занятии по умолчанию: </strong></span> <span>{{trainer?.defaultClientsCount}}</span><br>
+      <span><strong>Опыт: </strong></span> <span>{{trainer?.experience}} лет</span><br>
+      <span><strong>Образование: </strong></span> <span>{{trainer?.education}}</span><br>
+      <span><strong>Разряд: </strong></span> <span>{{trainer?.rank}}</span><br>
+    </div>
+  </div>
+
+  <div class="mx-5 my-5">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+
+</main>
+

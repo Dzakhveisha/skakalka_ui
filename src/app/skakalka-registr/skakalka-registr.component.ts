@@ -6,6 +6,7 @@ import {FormBuilder} from "@angular/forms";
 import {JWTToken} from "../shared/model/AccessToken";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NewUser} from "../shared/model/NewUser";
+import {User} from "../shared/model/User";
 
 //import {JwtHelperService} from "@auth0/angular-jwt";
 
@@ -27,7 +28,8 @@ export class SkakalkaRegistrComponent {
     login:"",
     mail:"",
     birthdate: Date.prototype,
-    password:""
+    password:"",
+    gender:"o"
   };
 
   constructor(private service: AuthService, private router: Router,
@@ -39,7 +41,6 @@ export class SkakalkaRegistrComponent {
 
   onSubmit() {
     console.log(this.newUser)
-    let rawToken = localStorage.getItem("token")
     this.register()
   }
 
@@ -48,10 +49,19 @@ export class SkakalkaRegistrComponent {
       next: (page: JWTToken) => {
         localStorage.setItem("token", page.token)
         this.error = {errorMessage: "", errorCode: ""}
+        this.service.getAuthUser().subscribe({
+            next: (user: User) => {
+              localStorage.setItem("userRoleId", String(user.roleId))
+            },
+            error: (err: HttpErrorResponse) => {
+              console.log("lol " + err.error.errorMessage + err.error.errorCode)
+            }
+          }
+        )
       },
-      error: (error: HttpErrorResponse) => {
-        this.error = error.error
-        console.log(error)
+      error: (err: HttpErrorResponse) => {
+        console.log("lol " + err.error.errorMessage + err.error.errorCode)
+        alert(err.error.errorMessage)
       },
       complete: () => {
         this.router.navigateByUrl('/');

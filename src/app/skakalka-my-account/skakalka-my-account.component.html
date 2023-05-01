@@ -3,14 +3,14 @@
     <div class="d-flex flex-column justify-content-center">
       <span class="material-icons md-240 gr"><span class="material-icons-outlined ">account_box</span></span>
       <div style="text-align: center">
-        <button class="btn btn-light mx-1">
+        <button class="btn btn-light mx-1 h">
           <span class="material-icons wh"><span class="material-icons-outlined">edit</span></span>
         </button>
         <button class="btn btn-light mx-1">
-        <span class="material-icons wh"><span class="material-icons-outlined">chat</span></span>
+          <span class="material-icons wh"><span class="material-icons-outlined">chat</span></span>
         </button>
-        <button class="btn btn-light mx-1">
-        <span class="material-icons wh"><span class="material-icons-outlined">logout</span></span>
+        <button class="btn btn-light mx-1" (click)="logout()">
+          <span class="material-icons wh"><span class="material-icons-outlined">logout</span></span>
         </button>
       </div>
     </div>
@@ -19,15 +19,21 @@
       <span><strong>Логин: </strong></span> <span>{{user.login}}</span><br>
       <span><strong>Имя: </strong></span> <span>{{user.firstName}}</span><br>
       <span><strong>Фамилия: </strong></span> <span>{{user.secondName}}</span><br>
-      <span><strong>День рождения: </strong></span> <span>{{user.birthdate}}</span><br>
+      <span><strong>День рождения: </strong></span> <span>{{user.birthDate}}</span><br>
       <span><strong>E-mail: </strong></span> <span>{{user.mail}}</span><br>
-<!--      <hr>-->
-<!--      <span><strong>Подписка: </strong></span> <span>Standart</span>-->
+      <hr>
+      <span class="d-flex align-items-center">
+        <strong>Рейтинг: </strong>
+        <span> {{user.rate}}</span>
+        <span class="material-icons"><span class="material-icons-outlined">star</span></span>
+      </span>
+      <!--      <hr>-->
+      <!--      <span><strong>Подписка: </strong></span> <span>Standart</span>-->
     </div>
   </div>
 
   <div class="mx-5 my-5">
-  <full-calendar [options]="calendarOptions"></full-calendar>
+    <full-calendar [options]="calendarOptions"></full-calendar>
   </div>
 
 </main>

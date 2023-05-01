@@ -6,8 +6,8 @@ export interface Slot{
   id: number;
   trainer: User;
   date: string;
-  startTime: Time;
-  finishTime:Time;
+  startTime: string;
+  finishTime:string;
   gym: Gym;
   specialization: Specialization;
   maxClientCount: number;

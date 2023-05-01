@@ -4,8 +4,8 @@ import {Router} from "@angular/router";
 import {AuthService} from "../shared/service/auth.service";
 import {ApiError} from "../shared/model/Error";
 import {JWTToken} from "../shared/model/AccessToken";
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {JwtHelperService} from "@auth0/angular-jwt";
+import {FormBuilder} from '@angular/forms';
+import {User} from "../shared/model/User";
 
 //import {JwtHelperService} from "@auth0/angular-jwt";
 
@@ -17,10 +17,7 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 })
 export class SkakalkaLoginComponent implements OnInit {
 
-  error: ApiError = {
-    errorCode: "",
-    errorMessage: ""
-  }
+  error: ApiError | null = null
 
   credentials = {login: '', password: ''};
 
@@ -39,12 +36,25 @@ export class SkakalkaLoginComponent implements OnInit {
   login() {
     this.service.authenticate(this.credentials).subscribe({
       next: (page: JWTToken) => {
+        this.error = null
         localStorage.setItem("token", page.token)
         this.error = {errorMessage: "", errorCode: ""}
+        this.service.getAuthUser().subscribe({
+            next: (user: User) => {
+              localStorage.setItem("userRoleId", String(user.roleId))
+            },
+            error: (err: HttpErrorResponse) => {
+              console.log("lol " + err.error.errorMessage + err.error.errorCode)
+            }
+          }
+        )
       },
-      error: (error: HttpErrorResponse) => {
-        this.error = error.error
-        console.log(error)
+      error: (err: HttpErrorResponse) => {
+        console.log("lol " + err.error.errorMessage + err.error.errorCode)
+        this.error = {
+          errorMessage: err.error.errorMessage,
+          errorCode: err.error.errorCode
+        }
       },
       complete: () => {
         this.router.navigateByUrl('/');

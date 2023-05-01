@@ -5,4 +5,5 @@ export interface NewUser{
   password: string;
   birthdate: Date;
   mail:string;
+  gender: string;
 }
