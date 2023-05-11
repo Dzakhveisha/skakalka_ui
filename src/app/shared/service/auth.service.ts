@@ -4,6 +4,7 @@ import {JWTToken} from "../model/AccessToken";
 import {Observable} from "rxjs";
 import {JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {User, UserRole} from "../model/User";
+import {TextChatService} from "./text-chat.service";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class AuthService {
   private registerUrl = 'http://localhost:8080/api/v1/auth/register';
   private usersUrl = 'http://localhost:8080/api/v1/users/';
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private chatService: TextChatService) {
   }
 
   authenticate(credentials: { login: any; password: any; }): Observable<JWTToken> {
@@ -45,14 +46,22 @@ export class AuthService {
   }
 
   getAuthUser(): Observable<User> {
-      console.log(this.jwtHelper.decodeToken().sub)
       const username = this.jwtHelper.decodeToken().sub;
       return this.http.get<User>(this.usersUrl + username, {headers: this.getHeadersWithAuth()});
+  }
+
+  getUser(login: string): Observable<User> {
+      return this.http.get<User>(this.usersUrl + login, {headers: this.getHeadersWithAuth()});
   }
 
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userRoleId")
+    this.chatService.disconnect()
+  }
+
+  initWS() {
+    this.chatService.initializeWebSocketConnection()
   }
 
 }

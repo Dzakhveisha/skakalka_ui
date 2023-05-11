@@ -14,7 +14,6 @@ import {Slot} from "../shared/model/Slot";
 import {UserRole} from "../shared/model/User";
 import {AuthService} from "../shared/service/auth.service";
 import {Lesson} from "../shared/model/Lesson";
-import {SkakalkaMyLessonDialog} from "../skakalka-my-account/skakalka-my-account.component";
 
 @Component({
   selector: 'app-trainer-info',
@@ -46,7 +45,7 @@ export class TrainerInfoComponent implements OnInit {
       {
         hour: '2-digit',
         minute: '2-digit',
-        hour12:false
+        hour12: false
       }
     ],
 
@@ -165,7 +164,7 @@ export class TrainerInfoComponent implements OnInit {
   }
 
   isClient() {
-    return  this.authService.isAuthenticatedWithRole(UserRole.CLIENT) || !this.authService.isAuthenticated()
+    return this.authService.isAuthenticatedWithRole(UserRole.CLIENT) || !this.authService.isAuthenticated()
   }
 }
 
@@ -176,6 +175,7 @@ export class TrainerInfoComponent implements OnInit {
 })
 export class TrainerLessonDialog {
   stringStatus: string | undefined;
+  isWarning: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<TrainerLessonDialog>, @Inject(MAT_DIALOG_DATA) public slot: Slot,
               private jwtHelper: JwtHelperService, private bookingService: BookingService,
@@ -187,18 +187,24 @@ export class TrainerLessonDialog {
 
   }
 
-  bookLesson(): void {
+  bookLesson(warningFlag: boolean): void {
     if (this.authService.isAuthenticatedWithRole(UserRole.CLIENT)) {
       const username = this.jwtHelper.decodeToken().sub;
-      this.bookingService.bookLesson(this.slot.id, username).subscribe({
+      this.bookingService.bookLesson(this.slot.id, username, warningFlag).subscribe({
           next: (l: Lesson) => {
+            this.isWarning = false;
             alert("Запись произведена успешно")
             this.dialogRef.close();
           }
           ,
           error: (err: HttpErrorResponse) => {
-            console.log("lol " + err.error.errorMessage + err.error.errorCode)
-            alert(err.error.errorMessage)
+            if (err.error.errorMessage.includes("пересекается с создаваемым!")) {
+              this.isWarning = true;
+            } else {
+              this.isWarning = false;
+              console.log("lol " + err.error.errorMessage + err.error.errorCode)
+              alert(err.error.errorMessage)
+            }
           }
         }
       )
@@ -210,6 +216,6 @@ export class TrainerLessonDialog {
   }
 
   isClient() {
-      return  this.authService.isAuthenticatedWithRole(UserRole.CLIENT) || !this.authService.isAuthenticated()
+    return this.authService.isAuthenticatedWithRole(UserRole.CLIENT) || !this.authService.isAuthenticated()
   }
 }

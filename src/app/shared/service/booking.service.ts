@@ -44,10 +44,21 @@ export class BookingService {
     });
   }
 
-  bookLesson(slotId: number, username: string): Observable<any> {
+  bookLesson(slotId: number, username: string, warningFlag: boolean | null): Observable<any> {
+    let params;
+    if (warningFlag != null) {
+      params = new HttpParams()
+        .set('username', username)
+        .append("slotId", slotId)
+        .append("skipWarning", warningFlag)
+    } else {
+      params = new HttpParams()
+        .set('username', username)
+        .append("slotId", slotId)
+    }
     return this.http.request("POST", this.lessonsUrl,
       {
-        params: new HttpParams().set('username', username).append("slotId", slotId),
+        params: params,
         headers: this.getHeadersWithAuth()
       });
   }
@@ -55,6 +66,27 @@ export class BookingService {
   createLessonRequest(request: LessonRequestCreate): Observable<any> {
     return this.http.request("POST", this.lessonRequestsUrl,
       {body: request, headers: this.getHeadersWithAuth()});
+
+  }
+
+  getRequestsForTrainer(trainerId: number): Observable<any> {
+    return this.http.request("GET", this.lessonRequestsUrl ,
+      {
+        params: new HttpParams().set('trainerId', trainerId),
+        headers: this.getHeadersWithAuth()
+      });
+
+  }
+
+  declineRequest(requestId: number): Observable<any> {
+    return this.http.request("PUT", this.lessonRequestsUrl + '/' + requestId,
+      { headers: this.getHeadersWithAuth()});
+
+  }
+
+  acceptRequest(requestId: number): Observable<any> {
+    return this.http.request("POST", this.lessonRequestsUrl + '/' + requestId,
+      { headers: this.getHeadersWithAuth()});
 
   }
 }

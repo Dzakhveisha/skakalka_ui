@@ -32,7 +32,7 @@ const lessonStatuses: LessonStatus[] = [
   },
 ];
 
-export function getLessonStatusById(id: number) {
+export function getLessonStatusById(id: number | undefined) {
   console.log(id)
   return lessonStatuses.find(s => {
     return s.id == id;

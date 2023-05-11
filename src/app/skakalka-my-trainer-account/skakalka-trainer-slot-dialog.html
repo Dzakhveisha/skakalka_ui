@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>{{slot.specialization.name + ' ' + slot.date}}</h1>
+<div mat-dialog-content>
+  <p>Статус: {{stringStatus}}</p>
+  <p>Время проведения: {{slot.startTime}} - {{slot.finishTime}}</p>
+  <p>Количество клиентов на занятии: {{slot.curClientCount}}/{{slot.maxClientCount}}</p>
+  <p>Место проведения: {{slot.gym.name}} </p>
+  <p>Тренер: {{slot.trainer.firstName}} {{slot.trainer.secondName}}</p>
+  <p>Стоимость: {{slot.price}} руб.</p>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-between">
+  <button mat-button mat-dialog-close>Закрыть</button>
+  <button *ngIf="!slot.isDeclined"  mat-button (click)="cancelSlot()">Отменить</button>
+  <button *ngIf="!slot.isDeclined"  mat-button (click)="editSlot()">Редактировать</button>
+</div>

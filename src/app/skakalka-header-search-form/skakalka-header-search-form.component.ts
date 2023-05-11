@@ -74,16 +74,21 @@ export class SkakalkaHeaderSearchFormComponent implements OnInit {
   onSubmit() {
     console.log(this.timeTo)
 
-    function resolveTimeToString(time: { hour: number | null; minute: number | null }) {
+    function  resolveTimeToString(time: { hour: number | null; minute: number | null }) {
       if (time == null || time.hour == null) {
         return null;
       }
+      let min = ''
+      let hr = ''
       if (time.minute == null || time.minute == 0) {
-        return `${time.hour}:00`
+        min = '00'
+      } else {
+        min = (time.minute < 10) ? `0${time.minute}` : `${time.minute}`
       }
-      return `${time.hour}:${time.minute}`
+      hr = (time.hour < 10) ? `0${time.hour}` : `${time.hour}`
+      return `${hr}:${min}`
     }
-
+    console.log(this.criteria.date)
     this.criteria.startTimeFrom = resolveTimeToString(this.timeFrom);
     this.criteria.startTimeTo = resolveTimeToString(this.timeTo);
     console.log(this.criteria)

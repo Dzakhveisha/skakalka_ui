@@ -6,6 +6,7 @@ import {Trainer} from "../model/TrainerInfo";
 import {TrainerCriteria} from "../model/TrainerCriteria";
 import {Lesson} from "../model/Lesson";
 import {UserName} from "../model/User";
+import {LessonReview} from "../model/LessonReview";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class TrainerService {
     return this.http.request<Trainer>("GET", this.trainersUrl + '/' + id, { headers: this.getHeadersWithAuth()});
   }
 
-  getTrainerSlots(id: number): Observable<any> {
+  getTrainerSlots(id: number | null | undefined): Observable<any> {
     return this.http.request<Slot[]>("GET", this.trainersUrl + '/' + id + '/lessons', { headers: this.getHeadersWithAuth()});
   }
 
@@ -43,5 +44,10 @@ export class TrainerService {
 
   getAllTrainersNames(): Observable<any> {
     return this.http.request<UserName[]>("GET", this.trainersUrl + '/names', {headers: this.getHeadersWithAuth()});
+  }
+
+  getAllTrainerReviews(id: number): Observable<any> {
+    return this.http.request<LessonReview[]>("GET", this.trainersUrl + '/' + id + '/reviews',
+      {headers: this.getHeadersWithAuth()});
   }
 }

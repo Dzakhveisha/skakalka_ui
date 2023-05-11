@@ -1,18 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../shared/service/auth.service";
 import {BookingService} from "../shared/service/booking.service";
 import {LessonRequestCreate} from "../shared/model/LessonRequest";
-import {SlotCriteria} from "../shared/model/slotCriteria";
 import {Specialization} from "../shared/model/Slot";
-import {CityRegion, Gym} from "../shared/model/Gym";
-import {OrganisationName} from "../shared/model/Organisation";
-import {Trainer} from "../shared/model/TrainerInfo";
+import {Gym} from "../shared/model/Gym";
 import {RefdataService} from "../shared/service/refdata.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UserName} from "../shared/model/User";
 import {TrainerService} from "../shared/service/trainer.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Component({
@@ -95,16 +91,21 @@ export class LessonRequestComponent implements OnInit {
       if (time == null || time.hour == null) {
         return null;
       }
-      if (time.minute == null || time.minute == 0) {
-        return `${time.hour}:00`
+      let min = ''
+      let hr = ''
+      if (time.minute == null) {
+        min = '00'
+      } else {
+        min = (time.minute < 10) ? `0${time.minute}` : `${time.minute}`
       }
-      return `${time.hour}:${time.minute}`
+      hr = (time.hour < 10) ? `0${time.hour}` : `${time.hour}`
+      return `${hr}:${min}`
     }
 
     this.request.startTime = resolveTimeToString(this.timeFrom);
     this.request.finishTime = resolveTimeToString(this.timeTo);
-    if ( this.request.specializationId == null || this.request.trainerId == null || this.request.date == null
-    || this.request.startTime == null || this.request.finishTime == null){
+    if (this.request.specializationId == null || this.request.trainerId == null || this.request.date == null
+      || this.request.startTime == null || this.request.finishTime == null) {
       alert("Все обязательные поля должны быть заполнены!")
       return;
     }

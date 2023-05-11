@@ -73,6 +73,12 @@ import { AvailableTrainersComponent } from './available-trainers/available-train
 import { SkakalkaTrainerSearchFormComponent } from './skakalka-trainer-search-form/skakalka-trainer-search-form.component';
 import {TrainerInfoComponent, TrainerLessonDialog} from './trainer-info/trainer-info.component';
 import { LessonRequestComponent } from './lesson-request/lesson-request.component';
+import {
+  SkakalkaMyTrainerAccountComponent,
+  SkakalkaTrainerSlotDialog
+} from './skakalka-my-trainer-account/skakalka-my-trainer-account.component';
+import { TextChatComponent } from './text-chat/text-chat.component';
+import {TextChatService} from "./shared/service/text-chat.service";
 
 // import { CalendarModule } from 'angular-calendar';
 // import { SchedulerModule } from 'angular-calendar-scheduler';
@@ -99,7 +105,10 @@ export function tokenGetter() {
     SkakalkaTrainerSearchFormComponent,
     TrainerInfoComponent,
     TrainerLessonDialog,
-    LessonRequestComponent
+    LessonRequestComponent,
+    SkakalkaMyTrainerAccountComponent,
+    SkakalkaTrainerSlotDialog,
+    TextChatComponent
   ],
   imports: [
     BrowserModule,
@@ -172,6 +181,7 @@ export function tokenGetter() {
     DialogModule,
   ],
   providers: [
+    TextChatService
   ],
   bootstrap: [AppComponent]
 })

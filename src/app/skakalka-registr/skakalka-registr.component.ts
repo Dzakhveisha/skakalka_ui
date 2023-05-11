@@ -52,6 +52,7 @@ export class SkakalkaRegistrComponent {
         this.service.getAuthUser().subscribe({
             next: (user: User) => {
               localStorage.setItem("userRoleId", String(user.roleId))
+              this.service.initWS()
             },
             error: (err: HttpErrorResponse) => {
               console.log("lol " + err.error.errorMessage + err.error.errorCode)

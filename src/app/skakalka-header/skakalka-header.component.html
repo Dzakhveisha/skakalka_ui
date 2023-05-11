@@ -28,12 +28,15 @@
           </li>
 
           <li *ngIf="isUserAuth()" class="nav-item dropdown">
-            <a routerLink="/myAccount" class="nav-link">
+            <a *ngIf="isUserTrainer()" routerLink="/myTrainerAccount" class="nav-link">
+              <span class="material-icons"><span class="material-icons-outlined">account_circle</span></span>
+            </a>
+            <a *ngIf="isUserClient()" routerLink="/myAccount" class="nav-link">
               <span class="material-icons"><span class="material-icons-outlined">account_circle</span></span>
             </a>
           </li>
           <li *ngIf="isUserAuth()" class="nav-item dropdown">
-            <a routerLink="/myAccount" class="nav-link">
+            <a routerLink="/chat" class="nav-link">
               <span class="material-icons"><span class="material-icons-outlined">chat</span></span>
             </a>
           </li>

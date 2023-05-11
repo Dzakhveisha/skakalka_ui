@@ -1,6 +1,11 @@
-<app-skakalka-header-search-form [criteria]="criteria" (criteriaChange)="updateList(criteria)" ></app-skakalka-header-search-form>
+<app-skakalka-header-search-form [criteria]="criteria"
+                                 (criteriaChange)="updateList(criteria)"></app-skakalka-header-search-form>
 
 <div *ngIf="slots.length > 0">
+  <mat-chip-listbox class="mx-5" name="order" [(ngModel)]="criteria.order" aria-label="Order">
+    <mat-chip-option *ngFor="let order of orderTypes" (click)="onOrderChange(order.value)"
+                     [value]="order.value">{{order.orderName}}</mat-chip-option>
+  </mat-chip-listbox>
   <table style="width: 95%; margin: auto" class="text-center mb-5 table align-middle table-hover table-responsive">
     <thead>
     <tr class="table-primary">
@@ -22,19 +27,24 @@
         <p [textContent]="slot.date.toString()"></p>
         <p [textContent]="slot.startTime + ' - ' + slot.finishTime"></p>
       </td>
-      <td >
+      <td>
         <p>{{slot.specialization.name}}</p>
-        <p>
+        <p class="d-flex justify-content-center">
           Тренер:
           <a [routerLink]="['/trainerInfo/user/', slot.trainer.id]">
             {{slot.trainer.firstName + ' ' + slot.trainer.secondName}}
           </a>
+          <span class="d-flex align-items-center mx-1">
+              <span> {{slot.trainer.rate}}</span>
+              <span class="material-icons"><span class="material-icons-outlined">star</span></span>
+            </span>
         </p>
       </td>
-      <td> {{slot.maxClientCount - slot.curClientCount + '/'+ slot.maxClientCount}}</td>
+      <td> {{slot.maxClientCount - slot.curClientCount + '/' + slot.maxClientCount}}</td>
       <td> {{slot.price + ' руб.'}}</td>
       <td>
-        <button *ngIf = "isClient()" style=" background-color: #fd9f01" class="btn btn-outline-light" (click)="onBookSlot(slot.id)">
+        <button *ngIf="isClient()" style=" background-color: #fd9f01" class="btn btn-outline-light"
+                (click)="onBookSlot(slot.id, false)">
           Записаться
         </button>
       </td>

@@ -1,6 +1,5 @@
-import {Time} from "@angular/common";
-
-export interface SlotCriteria{
+export interface SlotCriteria {
+  order: string | null;
   date: string | null;
   startTimeFrom: string | null;
   startTimeTo: string | null;

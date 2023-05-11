@@ -1,12 +1,25 @@
-<h1 mat-dialog-title>{{lesson.slot.specialization.name + ' ' + lesson.slot.date}}</h1>
-<div mat-dialog-content>
-  <p>Статус: {{stringStatus}}</p>
-  <p>Время проведения: {{lesson.slot.startTime}} - {{lesson.slot.finishTime}}</p>
-  <p>Количество клиентов на занятии: {{lesson.slot.curClientCount}}/{{lesson.slot.maxClientCount}}</p>
-  <p>Место проведения: {{lesson.slot.gym.name}} </p>
-  <p>Тренер: {{lesson.slot.trainer.firstName}} {{lesson.slot.trainer.secondName}}</p>
-  <p>Стоимость: {{lesson.slot.price}} руб.</p>
+<div *ngIf="isWarning()">
+  <div mat-dialog-actions class="m-2 flex-column justify-content-between">
+    <label style="color: darkred"> У вас есть пересечение с данным занятием!</label>
+    <label style="color: darkred"> Вы можете проигнорировать данное предупреждение.</label>
+    <div class="m-2 flex-column justify-content-around">
+      <button mat-button mat-dialog-close>Закрыть</button>
+      <button style="color: darkred" mat-button (click)="bookLesson(true)" >Записаться</button>
+    </div>
+  </div>
 </div>
-<div mat-dialog-actions class="d-flex justify-content-between">
-  <button mat-button mat-dialog-close>Закрыть</button>
+
+<div *ngIf="!isWarning()">
+  <h1 mat-dialog-title>{{lesson?.slot?.specialization?.name + ' ' + lesson?.slot?.date}}</h1>
+  <div mat-dialog-content>
+    <p>Статус: {{stringStatus}}</p>
+    <p>Время проведения: {{lesson?.slot?.startTime}} - {{lesson?.slot?.finishTime}}</p>
+    <p>Количество клиентов на занятии: {{lesson?.slot?.curClientCount}}/{{lesson?.slot?.maxClientCount}}</p>
+    <p>Место проведения: {{lesson?.slot?.gym?.name}} </p>
+    <p>Тренер: {{lesson?.slot?.trainer?.firstName}} {{lesson?.slot?.trainer?.secondName}}</p>
+    <p>Стоимость: {{lesson?.slot?.price}} руб.</p>
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-between">
+    <button mat-button mat-dialog-close>Закрыть</button>
+  </div>
 </div>

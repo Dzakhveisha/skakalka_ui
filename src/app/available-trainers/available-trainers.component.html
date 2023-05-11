@@ -41,7 +41,9 @@
 
       <div *ngIf="isClient()" class="d-flex align-items-center align-content-around justify-content-center align-self-stretch">
         <button mat-button style=" background-color: #fd9f01" class=" align-items-center">
+          <a [routerLink]="['/chat/', trainer.user?.login]">
           <span class="material-icons"><span class="material-icons-outlined">chat</span></span>
+          </a>
         </button>
         <button style=" background-color: #fd9f01" (click)="onRequestLesson(trainer?.user?.id)" class="btn btn-outline-light">Запрос на занятие</button>
       </div>

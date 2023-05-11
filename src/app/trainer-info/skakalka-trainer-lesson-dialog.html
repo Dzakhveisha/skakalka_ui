@@ -1,5 +1,6 @@
 <h1 mat-dialog-title>{{slot.specialization.name + ' ' + slot.date}}</h1>
 <div mat-dialog-content>
+  <label *ngIf="!slot.isDeclined && isClient() && isWarning" style="color: darkred"> У вас есть пересечение с данным занятием! Вы можете проигнорировать данное предупреждение.</label>
   <p><strong> {{stringStatus}}</strong></p>
   <p>Время проведения: {{slot.startTime}} - {{slot.finishTime}}</p>
   <p>Количество клиентов на занятии: {{slot.curClientCount}}/{{slot.maxClientCount}}</p>
@@ -9,6 +10,7 @@
 </div>
 <div mat-dialog-actions class="d-flex justify-content-between">
   <button mat-button mat-dialog-close>Закрыть</button>
-  <button *ngIf="!slot.isDeclined && isClient()"  mat-button (click)="bookLesson()">Записаться</button>
+  <button *ngIf="!slot.isDeclined && isClient() && !isWarning"  mat-button (click)="bookLesson(false)">Записаться</button>
+  <button style="color: darkred" *ngIf="!slot.isDeclined && isClient() && isWarning"  mat-button (click)="bookLesson(true)">Записаться</button>
 <!--  <button *ngIf="!slot.isDeclined"  mat-button (click)="cancelLesson()">Отменить занятие</button>-->
 </div>
