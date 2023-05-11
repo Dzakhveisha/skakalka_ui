@@ -1,0 +1,109 @@
+<main class="px-5" xmlns="http://www.w3.org/1999/html">
+  <div class="d-flex">
+    <div class="d-flex flex-column justify-content-center">
+      <span class="material-icons md-240 gr"><span class="material-icons-outlined ">account_box</span></span>
+      <div style="text-align: center">
+        <button class="btn btn-light mx-1 h">
+          <span class="material-icons wh"><span class="material-icons-outlined">edit</span></span>
+        </button>
+        <button class="btn btn-light mx-1">
+          <a [routerLink]="['/chat/', trainer?.user?.login]" class="nav-link">
+            <span class="material-icons"><span class="material-icons-outlined">chat</span></span>
+          </a>
+        </button>
+        <button class="btn btn-light mx-1" (click)="logout()">
+          <span class="material-icons wh"><span class="material-icons-outlined">logout</span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="my-5 mx-2">
+      <span><strong>Логин: </strong></span> <span>{{trainer?.user?.login}}</span><br>
+      <span><strong>Имя: </strong></span> <span>{{trainer?.user?.firstName}}</span><br>
+      <span><strong>Фамилия: </strong></span> <span>{{trainer?.user?.secondName}}</span><br>
+      <span><strong>День рождения: </strong></span> <span>{{trainer?.user?.birthDate}}</span><br>
+      <span><strong>Телефон: </strong></span> <span>{{trainer?.phoneNumber}}</span><br>
+      <hr>
+      <span class="d-flex align-items-center">
+        <strong>Рейтинг: </strong>
+        <span> {{trainer?.user?.rate}}</span>
+        <span class="material-icons"><span class="material-icons-outlined">star</span></span>
+      </span>
+    </div>
+
+    <div class="my-5 mx-5">
+      <span><strong>Направления: </strong></span>
+      <span *ngFor="let s of trainer?.specializations; last as isLast">
+              {{s.name}}
+        <span *ngIf="!isLast">, </span>
+            </span>
+      <br>
+      <span><strong>Организация: </strong></span>
+      <span *ngIf="trainer?.organisation == undefined"> - </span>
+      <span>{{trainer?.organisation?.name}}</span><br>
+      <span><strong>Основной спортзал: </strong></span> <span>{{trainer?.defaultGym?.name}}</span><br>
+      <span><strong>Количество клиентов на занятии по умолчанию: </strong></span>
+      <span>{{trainer?.defaultClientsCount}}</span><br>
+      <span><strong>Опыт: </strong></span> <span>{{trainer?.experience}} лет</span><br>
+      <span><strong>Образование: </strong></span> <span>{{trainer?.education}}</span><br>
+      <span><strong>Разряд: </strong></span> <span>{{trainer?.rank}}</span><br>
+    </div>
+
+  </div>
+
+  <div class="mx-5 my-5">
+    <full-calendar [options]="calendarOptions"></full-calendar>
+  </div>
+
+
+
+  <mat-tab-group class="px-5 my-5 mx-2 d-flex justify-content-center" dynamicHeight>
+    <mat-tab class="d-flex justify-content-around" label="Запросы на занятие">
+
+      <mat-card style="background-color: aliceblue; min-width: 50%; max-width: 50%; left: 25%"
+                *ngFor="let request of clientRequests" class="m-4 example-card">
+        <mat-card-header>
+          <mat-card-title>{{request.date}}  ({{request.startTime}} - {{request.finishTime}})</mat-card-title>
+          <mat-card-subtitle>{{request.specialization.name}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="flex-column mx-3 mt-3">
+          <div> Спортзал: {{request.gym.name}}</div>
+          <div> Клиент: {{request.owner.firstName}} {{request.owner.secondName}}</div>
+          <div class="me-md-4">Комментарий: {{request.comment}}</div>
+        </mat-card-content>
+        <mat-card-footer class="my-1 d-flex justify-content-around">
+          <button class="mx-1" *ngIf="request.status == 1" mat-button (click)="declineRequest(request.id)">
+            Отклонить
+          </button>
+          <button class="mx-1" mat-button color="primary" *ngIf="request.status == 1" (click)="acceptRequest(request.id)">
+            Подтвердить
+          </button>
+        </mat-card-footer>
+      </mat-card>
+
+    </mat-tab>
+
+    <mat-tab label="Отзывы">
+      <mat-card style="background-color: aliceblue; min-width: 50%; max-width: 50%;left: 25%"
+                *ngFor="let review of reviews" class="m-4 example-card">
+        <mat-card-header>
+          <mat-card-title>{{review.lesson.slot.specialization.name}} {{review.lesson.slot.date}} ({{review.lesson.slot.startTime}} - {{review.lesson.slot.finishTime}})</mat-card-title>
+          <mat-card-subtitle>{{review.author.firstName}} {{review.author.secondName}} ({{review.dateTime}})</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="flex-column mx-3 mt-3">
+          <div> Оценка: {{review.rate}}</div>
+          <div> Комментарий: {{review.comment}}</div>
+        </mat-card-content>
+        <mat-card-footer class="my-2 d-flex justify-content-around">
+        </mat-card-footer>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="px-5 my-5 mx-2">
+
+
+  </div>
+
+</main>
+

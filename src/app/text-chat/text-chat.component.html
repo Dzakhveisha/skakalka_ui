@@ -1,0 +1,55 @@
+<div class="row h-100 py-3">
+
+  <div style="min-width: 30%; max-width: 30%" class="col-1 mx-2">
+    <div *ngFor="let chat of userChats" class="d-flex  align-items-center"
+         (click)="chooseChat(chat)" style="background-color: #e9f2f9;">
+
+      <div *ngIf="chat?.login != curChat?.login" class="w-100 align-self-center border-bottom">
+        <h2 class="align-self-center">{{chat.firstName}} {{chat.secondName}}</h2>
+      </div>
+      <div *ngIf="chat?.login == curChat?.login" class="w-100 align-self-center border-bottom" style="background-color: #d6e7fc; ">
+        <h2 class="align-self-center">{{chat.firstName}} {{chat.secondName}}</h2>
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngIf="curChat != undefined" style="min-width: 65%; max-width: 65%" class="col-3 h-100 overflow-auto">
+    <div class="d-flex">
+      <input class="form-control" type="text" placeholder="message" [(ngModel)]="input">
+      <button class="btn btn-primary mx-1" (click)="sendMessage()">Send</button>
+    </div>
+    <div>
+      <div *ngFor="let msg of msgService.msg.get(this.curChat.login)">
+        <div *ngIf="msg.from?.login != me?.login" class="text-end w-auto flex-column p-2 rounded-3 my-3"
+             style="background-color: #fff9d4;">
+          <b class="">{{msg.from?.firstName}} {{msg.from?.secondName}}</b>
+          <div class="me-3">{{msg.message}}</div>
+        </div>
+
+        <div *ngIf="msg.from?.login == me?.login" class="w-auto flex-column p-2 rounded-3 my-3"
+             style="background-color: #ffefc4;">
+          <b class="">{{msg.from?.firstName}} {{msg.from?.secondName}}</b>
+          <div class="ms-3">{{msg.message}}</div>
+        </div>
+      </div>
+      <div *ngFor="let msg of msgs.reverse()" class="flex-column">
+
+        <div *ngIf="msg.from?.login != me?.login" class="text-end w-auto flex-column p-2 rounded-3 my-3"
+             style="background-color: #fff9d4;">
+          <b class="">{{msg.from?.firstName}} {{msg.from?.secondName}}</b>
+          <div class="me-3">{{msg.message}}</div>
+        </div>
+
+        <div *ngIf="msg.from?.login == me?.login" class="w-auto flex-column p-2 rounded-3 my-3"
+             style="background-color: #ffefc4;">
+          <b class="">{{msg.from?.firstName}} {{msg.from?.secondName}}</b>
+          <div class="ms-3">{{msg.message}}</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
