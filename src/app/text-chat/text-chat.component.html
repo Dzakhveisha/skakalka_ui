@@ -16,8 +16,8 @@
 
   <div *ngIf="curChat != undefined" style="min-width: 65%; max-width: 65%" class="col-3 h-100 overflow-auto">
     <div class="d-flex">
-      <input class="form-control" type="text" placeholder="message" [(ngModel)]="input">
-      <button class="btn btn-primary mx-1" (click)="sendMessage()">Send</button>
+      <input class="form-control" type="text" placeholder="Введите сообщение..." [(ngModel)]="input">
+      <button class="btn btn-primary mx-1" (click)="sendMessage()">Отправить</button>
     </div>
     <div>
       <div *ngFor="let msg of msgService.msg.get(this.curChat.login)">

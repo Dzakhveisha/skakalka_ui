@@ -1,0 +1,25 @@
+<form (ngSubmit)="onSubmit()" class="container px-lg-4 mx-lg-5 my-4" style="margin: 3% auto!important; width: 100%">
+  <div class="d-flex justify-content-center">
+    <div class="w-50 flex-column justify-content-center ">
+
+      <div class="w-100">
+        <label>Поставьте оценку от 1 до 5</label>
+        <mat-slider class="w-100" discrete min="1" max="5">
+          <input matSliderThumb id="tRate" name="trainerRate" [(ngModel)]="review.rate">
+        </mat-slider>
+      </div>
+
+      <mat-form-field class="w-100 mt-3">
+        <mat-label>Оставьте дополнительный комментарий</mat-label>
+        <textarea matInput name="comment" [(ngModel)]='review.comment' [value]='review.comment'> </textarea>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="my-5 pb-5 d-flex justify-content-center">
+    <button type="submit" style=" background-color: #fd9f01" class="btn btn-outline-light">
+      Сохранить отзыв
+    </button>
+  </div>
+</form>
+

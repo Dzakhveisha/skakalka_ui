@@ -1,29 +1,29 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {Trainer} from "../shared/model/TrainerInfo";
+import {Component, OnInit} from '@angular/core';
 import {Slot} from "../shared/model/Slot";
+import {LessonRequest} from "../shared/model/LessonRequest";
+import {LessonReview} from "../shared/model/LessonReview";
 import {CalendarOptions} from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
-import {AuthService} from "../shared/service/auth.service";
-import {Router} from "@angular/router";
-import {BookingService} from "../shared/service/booking.service";
-import {JwtHelperService} from "@auth0/angular-jwt";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {User} from "../shared/model/User";
+import {AuthService} from "../shared/service/auth.service";
+import {BookingService} from "../shared/service/booking.service";
+import {Router} from "@angular/router";
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {MatDialog} from "@angular/material/dialog";
 import {TrainerService} from "../shared/service/trainer.service";
-import {LessonRequest} from "../shared/model/LessonRequest";
-import {LessonReview} from "../shared/model/LessonReview";
 import {HttpErrorResponse} from "@angular/common/http";
+import {SkakalkaTrainerSlotDialog} from "../skakalka-my-trainer-account/skakalka-my-trainer-account.component";
 
 @Component({
-  selector: 'app-skakalka-my-trainer-account',
-  templateUrl: './skakalka-my-trainer-account.component.html',
-  styleUrls: ['./skakalka-my-trainer-account.component.css']
+  selector: 'app-skakalka-my-admin-account',
+  templateUrl: './skakalka-my-admin-account.component.html',
+  styleUrls: ['./skakalka-my-admin-account.component.css']
 })
-export class SkakalkaMyTrainerAccountComponent implements OnInit {
+export class SkakalkaMyAdminAccountComponent implements OnInit {
 
-  trainer: Trainer | null = null;
+  admin: User | null = null;
 
   Events: any[] = [];
   lessons: Slot[] = [];
@@ -69,18 +69,9 @@ export class SkakalkaMyTrainerAccountComponent implements OnInit {
     this.authService.getAuthUser().subscribe({
         next: (user: User) => {
           console.log(user.birthDate);
+          this.admin = user
 
-          this.trainerService.getTrainerIdByUserId(user.id).subscribe({
-              next: trainerId => {
-                this.trainerService.getTrainerById(trainerId).subscribe({
-                    next: trainer => this.trainer = trainer
-                  }
-                )
-              }
-            }
-          )
-
-          this.trainerService.getTrainerSlots(user.id).subscribe({
+          this.trainerService.getAllOrganisationSlots(user.id).subscribe({
             next: (lessons: Slot[]) => {
               console.log(lessons)
               this.lessons = lessons;
@@ -103,15 +94,14 @@ export class SkakalkaMyTrainerAccountComponent implements OnInit {
             }
           })
 
-          this.bookingService.getRequestsForTrainer(user.id).subscribe({
-              next: requests => {
+          this.bookingService.getRequestsForOrganisation(user.id).subscribe({
+              next: (requests: LessonRequest[]) => {
                 console.log(requests)
                 this.clientRequests = requests
               }
-            }
-          )
+          })
 
-          this.trainerService.getAllTrainerReviews(user.id).subscribe({
+          this.trainerService.getAllOrganisationReviews(user.id).subscribe({
               next: reviews => {
                 console.log(reviews)
                 this.reviews = reviews
@@ -167,24 +157,3 @@ export class SkakalkaMyTrainerAccountComponent implements OnInit {
 
   }
 }
-
-@Component({
-  selector: 'skakalka-trainer-slot-dialog',
-  templateUrl: 'skakalka-trainer-slot-dialog.html',
-})
-export class SkakalkaTrainerSlotDialog {
-  stringStatus: string | undefined;
-
-  constructor(public dialogRef: MatDialogRef<SkakalkaTrainerSlotDialog>, @Inject(MAT_DIALOG_DATA) public slot: Slot,
-              private jwtHelper: JwtHelperService, private bookingService: BookingService) {
-  }
-
-  cancelSlot(): void {
-
-  }
-
-  editSlot() {
-
-  }
-}
-

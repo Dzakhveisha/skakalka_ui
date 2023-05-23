@@ -17,10 +17,7 @@ import {User} from "../shared/model/User";
 })
 export class SkakalkaRegistrComponent {
 
-  error: ApiError = {
-    errorCode: "",
-    errorMessage: ""
-  }
+  error: ApiError | null = null
 
   newUser: NewUser = {
     firstname:"",
@@ -47,6 +44,7 @@ export class SkakalkaRegistrComponent {
   register() {
     this.service.register(this.newUser).subscribe({
       next: (page: JWTToken) => {
+        this.error = null
         localStorage.setItem("token", page.token)
         this.error = {errorMessage: "", errorCode: ""}
         this.service.getAuthUser().subscribe({
@@ -63,6 +61,10 @@ export class SkakalkaRegistrComponent {
       error: (err: HttpErrorResponse) => {
         console.log("lol " + err.error.errorMessage + err.error.errorCode)
         alert(err.error.errorMessage)
+        this.error = {
+          errorMessage: err.error.errorMessage,
+          errorCode: err.error.errorCode
+        }
       },
       complete: () => {
         this.router.navigateByUrl('/');

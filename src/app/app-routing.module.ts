@@ -11,6 +11,8 @@ import {TrainerInfoComponent} from "./trainer-info/trainer-info.component";
 import {LessonRequestComponent} from "./lesson-request/lesson-request.component";
 import {SkakalkaMyTrainerAccountComponent} from "./skakalka-my-trainer-account/skakalka-my-trainer-account.component";
 import {TextChatComponent} from "./text-chat/text-chat.component";
+import {UserReviewComponent} from "./user-review/user-review.component";
+import {SkakalkaMyAdminAccountComponent} from "./skakalka-my-admin-account/skakalka-my-admin-account.component";
 
 const routes: Routes = [
   { path: '', component: SkakalkaMainComponent },
@@ -18,12 +20,14 @@ const routes: Routes = [
   {path: 'registr', component: SkakalkaRegistrComponent},
   {path: 'myAccount', component: SkakalkaMyAccountComponent},
   {path: 'myTrainerAccount', component: SkakalkaMyTrainerAccountComponent},
+  {path: 'myAdminAccount', component: SkakalkaMyAdminAccountComponent},
   {path: 'slots', component: AvailableSlotsComponent},
   {path: 'trainers', component: AvailableTrainersComponent},
   {path: 'price', component: SkakalkaPriceComponent},
   {path: 'trainerInfo/:id', component: TrainerInfoComponent},
   {path: 'trainerInfo/user/:userId', component:TrainerInfoComponent},
   {path: 'LessonRequest/:trainerId', component:LessonRequestComponent},
+  {path: 'userReview/:lessonId/:userId', component:UserReviewComponent},
   {path: 'chat', component: TextChatComponent},
   {path: 'chat/:login', component: TextChatComponent}
 ];

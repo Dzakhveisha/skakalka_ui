@@ -7,8 +7,10 @@
   <p>Тренер: {{slot.trainer.firstName}} {{slot.trainer.secondName}}</p>
   <p>Стоимость: {{slot.price}} руб.</p>
 </div>
-<div mat-dialog-actions class="d-flex justify-content-between">
-  <button mat-button mat-dialog-close>Закрыть</button>
-  <button *ngIf="!slot.isDeclined"  mat-button (click)="cancelSlot()">Отменить</button>
-  <button *ngIf="!slot.isDeclined"  mat-button (click)="editSlot()">Редактировать</button>
+<div mat-dialog-actions>
+  <div class="d-flex justify-content-between">
+    <button mat-button mat-dialog-close>Закрыть</button>
+    <button *ngIf="!slot.isDeclined" mat-button (click)="cancelSlot()">Отменить</button>
+    <button *ngIf="!slot.isDeclined" mat-button (click)="editSlot()">Редактировать</button>
+  </div>
 </div>

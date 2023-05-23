@@ -5,6 +5,7 @@ import {SlotCriteria} from "../model/slotCriteria";
 import {Slot} from "../model/Slot";
 import {Lesson} from "../model/Lesson";
 import {LessonRequestCreate} from "../model/LessonRequest";
+import {LessonReview} from "../model/LessonReview";
 
 @Injectable({
   providedIn: 'root'
@@ -87,6 +88,15 @@ export class BookingService {
   acceptRequest(requestId: number): Observable<any> {
     return this.http.request("POST", this.lessonRequestsUrl + '/' + requestId,
       { headers: this.getHeadersWithAuth()});
+
+  }
+
+  getRequestsForOrganisation(id: number): Observable<any>  {
+    return this.http.request("GET", this.lessonRequestsUrl ,
+      {
+        params: new HttpParams().set('trainerId', 1),
+        headers: this.getHeadersWithAuth()
+      });
 
   }
 }

@@ -1,54 +1,78 @@
 <app-skakalka-trainer-search-form [criteria]="criteria"
                                   (criteriaChange)="updateList(criteria)"></app-skakalka-trainer-search-form>
 
-<div class="p-2 d-flex text-center align-self-center flex-wrap ms-4" >
-  <mat-card style="background-color: aliceblue; min-width: 20%; max-width: 20%"
-            *ngFor="let trainer of trainers" class="m-3 example-card">
-    <mat-card-header class="flex-column">
-      <div class="ms-3">
-        <mat-card-title>{{trainer.user?.firstName}}  {{trainer.user?.secondName}}</mat-card-title>
-        <mat-card-subtitle>
-          <strong>({{trainer.rank}} <span *ngIf="trainer.rank == ''"> без разряда </span>)</strong> <br>
+<div *ngIf="trainers.length > 0">
+  <mat-chip-listbox class="mx-5" name="order" [(ngModel)]="criteria.order" aria-label="Order">
+    <mat-chip-option *ngFor="let order of orderTypes" (click)="onOrderChange(order.value)"
+                     [value]="order.value">{{order.orderName}}</mat-chip-option>
+  </mat-chip-listbox>
+  <div class="p-2 d-flex text-center align-self-center flex-wrap ms-4">
+    <mat-card style="background-color: aliceblue; min-width: 20%; max-width: 20%"
+              *ngFor="let trainer of trainers" class="m-3 example-card">
+      <mat-card-header class="flex-column">
+        <div class="ms-3">
+          <mat-card-title>
+            <div class="d-flex justify-content-center">
+            {{trainer.user?.firstName}}  {{trainer.user?.secondName}}
+            <span class="d-flex align-items-center mx-1">
+              <span> {{trainer.user?.rate}}</span>
+              <span class="material-icons"><span class="material-icons-outlined">star</span></span>
+            </span>
+            </div>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <strong>({{trainer.rank}} <span *ngIf="trainer.rank == ''"> без разряда </span>)</strong> <br>
             <span *ngFor="let s of trainer.specializations; last as isLast">
               {{s.name}}
               <span *ngIf="!isLast">, </span>
             </span>
             <br *ngIf="trainer.specializations.length == 0">
-        </mat-card-subtitle>
-      </div>
-    </mat-card-header>
+          </mat-card-subtitle>
+        </div>
+      </mat-card-header>
 
-    <mat-card-content class="flex-column">
+      <mat-card-content class="flex-column">
 
 
         <a [routerLink]="['/trainerInfo', trainer.id]">
           <span class="material-icons md-120 gr"><span class="material-icons-outlined ">account_box</span></span>
         </a>
-      <div class="ms-4 text-start">
-        <p>
-          Основной спортзал: <br><strong>{{trainer.defaultGym?.name}} <span
-          *ngIf="trainer.defaultGym == null"> - </span></strong>
-        </p>
-        <p>
-          Организация: <strong>{{trainer.organisation?.name}} <span
-          *ngIf="trainer.organisation == null"> - </span></strong>
-        </p>
-        <p>
-          Образование: <strong>{{trainer.education}} <span *ngIf="trainer.education == null"> - </span></strong>
-        </p>
-        <br>
-      </div>
+        <div class="ms-4 text-start">
+          <p>
+            Основной спортзал: <br><strong>{{trainer.defaultGym?.name}} <span
+            *ngIf="trainer.defaultGym == null"> - </span></strong>
+          </p>
+          <p>
+            Организация: <strong>{{trainer.organisation?.name}} <span
+            *ngIf="trainer.organisation == null"> - </span></strong>
+          </p>
+          <p>
+            Образование: <strong>{{trainer.education}} <span *ngIf="trainer.education == null"> - </span></strong>
+          </p>
+          <br>
+        </div>
 
-      <div *ngIf="isClient()" class="d-flex align-items-center align-content-around justify-content-center align-self-stretch">
-        <button mat-button style=" background-color: #fd9f01" class=" align-items-center">
-          <a [routerLink]="['/chat/', trainer.user?.login]">
-          <span class="material-icons"><span class="material-icons-outlined">chat</span></span>
-          </a>
-        </button>
-        <button style=" background-color: #fd9f01" (click)="onRequestLesson(trainer?.user?.id)" class="btn btn-outline-light">Запрос на занятие</button>
-      </div>
+        <div *ngIf="isClient()"
+             class="d-flex align-items-center align-content-around justify-content-center align-self-stretch">
+          <button mat-button style=" background-color: #fd9f01" class=" align-items-center">
+            <a [routerLink]="['/chat/', trainer.user?.login]">
+              <span class="material-icons"><span class="material-icons-outlined">chat</span></span>
+            </a>
+          </button>
+          <button style=" background-color: #fd9f01" (click)="onRequestLesson(trainer?.user?.id)"
+                  class="btn btn-outline-light">Запрос на занятие
+          </button>
+        </div>
 
-    </mat-card-content>
+      </mat-card-content>
 
-  </mat-card>
+    </mat-card>
+  </div>
+</div>
+
+<div class="text-center" *ngIf="trainers.length < 1">
+  <h3>К сожалению, мы ничего не нашли :(</h3>
+  <p>Попробуйте изменить значения фильтров.</p>
+  <img class="m-5" width="750" height="500"
+       src="../../assets/img/Happy people in air balloon flat vector illustration.jpg">
 </div>

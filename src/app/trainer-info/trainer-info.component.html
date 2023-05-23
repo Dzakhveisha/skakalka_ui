@@ -8,7 +8,9 @@
 <!--        </button>-->
         <div class="w-100 d-flex align-items-center align-content-around justify-content-center align-self-stretch">
           <button mat-button style=" background-color: #fd9f01" class=" align-items-center">
-            <span class="material-icons"><span class="material-icons-outlined">chat</span></span>
+            <a [routerLink]="['/chat/', trainer?.user?.login]" class="nav-link">
+              <span class="material-icons"><span class="material-icons-outlined">chat</span></span>
+            </a>
           </button>
           <button *ngIf="isClient()" style=" background-color: #fd9f01" class="btn btn-outline-light" (click)="onRequestLesson(trainer.id)">Запрос на занятие</button>
         </div>
@@ -33,14 +35,15 @@
       <span><strong>Направления: </strong></span>
       <span *ngFor="let s of trainer?.specializations; last as isLast">
               {{s.name}}
-         <span *ngIf="!isLast">, </span>
+        <span *ngIf="!isLast">, </span>
             </span>
       <br>
       <span><strong>Организация: </strong></span>
       <span *ngIf="trainer?.organisation == undefined"> - </span>
-          <span>{{trainer?.organisation?.name}}</span><br>
+      <span>{{trainer?.organisation?.name}}</span><br>
       <span><strong>Основной спортзал: </strong></span> <span>{{trainer?.defaultGym?.name}}</span><br>
-      <span><strong>Количество клиентов на занятии по умолчанию: </strong></span> <span>{{trainer?.defaultClientsCount}}</span><br>
+      <span><strong>Количество клиентов на занятии по умолчанию: </strong></span>
+      <span>{{trainer?.defaultClientsCount}}</span><br>
       <span><strong>Опыт: </strong></span> <span>{{trainer?.experience}} лет</span><br>
       <span><strong>Образование: </strong></span> <span>{{trainer?.education}}</span><br>
       <span><strong>Разряд: </strong></span> <span>{{trainer?.rank}}</span><br>

@@ -11,3 +11,11 @@ export interface LessonReview {
   dateTime: string;
   comment: string;
 }
+
+export interface NewLessonReview {
+  lessonId: number | null;
+  authorId: number | null;
+  targetUserId: number | null;
+  rate: number | null;
+  comment: string | null;
+}

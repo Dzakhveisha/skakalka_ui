@@ -46,4 +46,8 @@ export class SkakalkaHeaderComponent implements OnInit {
   isUserTrainer() {
     return this.authService.isAuthenticatedWithRole(UserRole.TRAINER)
   }
+
+  isUserAdmin() {
+    return this.authService.isAuthenticatedWithRole(UserRole.ADMIN)
+  }
 }

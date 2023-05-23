@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {User, UserRole} from "../model/User";
 import {TextChatService} from "./text-chat.service";
+import {LessonReview, NewLessonReview} from "../model/LessonReview";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class AuthService {
   private loginUrl = 'http://localhost:8080/api/v1/auth/authenticate';
   private registerUrl = 'http://localhost:8080/api/v1/auth/register';
   private usersUrl = 'http://localhost:8080/api/v1/users/';
+  private reviewsUrl = 'http://localhost:8080/api/v1/users/lessonReviews';
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private chatService: TextChatService) {
   }
@@ -64,4 +66,8 @@ export class AuthService {
     this.chatService.initializeWebSocketConnection()
   }
 
+  createReview(review: NewLessonReview): Observable<any> {
+    return this.http.request("POST", this.reviewsUrl,
+      { body: review, headers: this.getHeadersWithAuth()});
+  }
 }

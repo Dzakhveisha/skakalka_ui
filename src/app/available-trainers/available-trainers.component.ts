@@ -7,6 +7,8 @@ import {FormControl, Validators} from '@angular/forms';
 import {AuthService} from "../shared/service/auth.service";
 import {Router} from "@angular/router";
 import {UserRole} from "../shared/model/User";
+import {OrderType} from "../shared/model/OrderType";
+import {Slot} from "../shared/model/Slot";
 
 @Component({
   selector: 'app-available-trainers',
@@ -31,8 +33,21 @@ export class AvailableTrainersComponent {
     education: null,
     rank: null,
     defaultClientsCountFrom: null,
-    defaultClientsCountTo: null
+    defaultClientsCountTo: null,
+
+    order: null
   }
+
+  orderTypes: OrderType[] = [
+    {
+      orderName: "Сначала высокий рейтинг",
+      value: "price_desc"
+    },
+    {
+      orderName: "Сначала низкий рейтинг",
+      value: "price_asc"
+    }
+]
 
 
   constructor(private trainerService: TrainerService, private authService: AuthService, private  router: Router) {
@@ -74,5 +89,19 @@ export class AvailableTrainersComponent {
 
   isClient() {
       return  this.authService.isAuthenticatedWithRole(UserRole.CLIENT) || !this.authService.isAuthenticated()
+  }
+
+  onOrderChange(order: string | null) {
+    this.criteria.order = order;
+    this.trainerService.getAllTrainers(this.criteria).subscribe({
+      next: (trainersInfo: Trainer[]) => {
+        this.trainers = trainersInfo;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log("lol " + err.error.errorMessage + err.error.errorCode)
+        alert(err.error.errorMessage)
+      }
+    });
+
   }
 }

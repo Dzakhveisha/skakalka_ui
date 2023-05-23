@@ -132,7 +132,7 @@ export class SkakalkaMyLessonDialog {
   stringStatus: string | undefined;
 
   constructor(public dialogRef: MatDialogRef<SkakalkaMyLessonDialog>, @Inject(MAT_DIALOG_DATA) public lesson: Lesson,
-              private jwtHelper: JwtHelperService, private bookingService: BookingService) {
+              private jwtHelper: JwtHelperService, private bookingService: BookingService, private router: Router) {
     this.stringStatus =  getLessonStatusById(this.lesson.statusId);
   }
 
@@ -155,5 +155,11 @@ export class SkakalkaMyLessonDialog {
       }
     )
 
+  }
+
+
+  onReview(lessonId: number | null, userId: number | null) {
+    this.dialogRef.close();
+    this.router.navigate(["userReview/", lessonId, userId])
   }
 }

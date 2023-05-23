@@ -19,35 +19,21 @@
     </div>
 
     <div class="my-5 mx-2">
-      <span><strong>Логин: </strong></span> <span>{{trainer?.user?.login}}</span><br>
-      <span><strong>Имя: </strong></span> <span>{{trainer?.user?.firstName}}</span><br>
-      <span><strong>Фамилия: </strong></span> <span>{{trainer?.user?.secondName}}</span><br>
-      <span><strong>День рождения: </strong></span> <span>{{trainer?.user?.birthDate}}</span><br>
-      <span><strong>Телефон: </strong></span> <span>{{trainer?.phoneNumber}}</span><br>
+      <span><strong>Логин: </strong></span> <span>{{admin?.login}}</span><br>
+      <span><strong>Имя: </strong></span> <span>{{admin?.firstName}}</span><br>
+      <span><strong>Фамилия: </strong></span> <span>{{admin?.secondName}}</span><br>
+      <span><strong>День рождения: </strong></span> <span>{{admin?.birthDate}}</span><br>
+      <span><strong>E-mail: </strong></span> <span>{{admin?.mail}}</span><br>
       <hr>
       <span class="d-flex align-items-center">
         <strong>Рейтинг: </strong>
-        <span> {{trainer?.user?.rate}}</span>
+        <span> {{admin?.rate}}</span>
         <span class="material-icons"><span class="material-icons-outlined">star</span></span>
       </span>
     </div>
 
     <div class="my-5 mx-5">
-      <span><strong>Направления: </strong></span>
-      <span *ngFor="let s of trainer?.specializations; last as isLast">
-              {{s.name}}
-        <span *ngIf="!isLast">, </span>
-            </span>
-      <br>
       <span><strong>Организация: </strong></span>
-      <span *ngIf="trainer?.organisation == undefined"> - </span>
-      <span>{{trainer?.organisation?.name}}</span><br>
-      <span><strong>Основной спортзал: </strong></span> <span>{{trainer?.defaultGym?.name}}</span><br>
-      <span><strong>Количество клиентов на занятии по умолчанию: </strong></span>
-      <span>{{trainer?.defaultClientsCount}}</span><br>
-      <span><strong>Опыт: </strong></span> <span>{{trainer?.experience}} лет</span><br>
-      <span><strong>Образование: </strong></span> <span>{{trainer?.education}}</span><br>
-      <span><strong>Разряд: </strong></span> <span>{{trainer?.rank}}</span><br>
     </div>
 
   </div>

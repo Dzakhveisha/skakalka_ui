@@ -15,4 +15,6 @@ export interface TrainerCriteria{
 
   defaultClientsCountFrom: number | null;
   defaultClientsCountTo: number | null;
+
+  order: string | null;
 }

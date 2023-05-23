@@ -14,7 +14,7 @@ import {LessonReview} from "../model/LessonReview";
 export class TrainerService {
 
   private trainersUrl = 'http://localhost:8080/api/v1/trainers'
-  private usersUrl = 'http://localhost:8080/api/v1/users/'
+  private orgUrl = 'http://localhost:8080/api/v1/organisations/'
 
   private getHeadersWithAuth(): HttpHeaders {
     return new HttpHeaders({
@@ -48,6 +48,17 @@ export class TrainerService {
 
   getAllTrainerReviews(id: number): Observable<any> {
     return this.http.request<LessonReview[]>("GET", this.trainersUrl + '/' + id + '/reviews',
+      {headers: this.getHeadersWithAuth()});
+  }
+
+
+  getAllOrganisationSlots(id: number): Observable<any>{
+    return this.http.request<Slot[]>("GET", this.orgUrl + id + '/slots',
+      {headers: this.getHeadersWithAuth()});
+  }
+
+  getAllOrganisationReviews(id: number) : Observable<any> {
+    return this.http.request<LessonReview[]>("GET", this.orgUrl + id + '/slots',
       {headers: this.getHeadersWithAuth()});
   }
 }
