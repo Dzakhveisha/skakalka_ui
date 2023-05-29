@@ -12,6 +12,9 @@ import {getLessonStatusById, Lesson} from "../shared/model/Lesson";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ApiError} from "../shared/model/Error";
 import {HttpErrorResponse} from "@angular/common/http";
+import {getRequestStatusById, LessonRequest} from "../shared/model/LessonRequest";
+import {LessonReview} from "../shared/model/LessonReview";
+import {TrainerService} from "../shared/service/trainer.service";
 
 
 @Component({
@@ -35,6 +38,8 @@ export class SkakalkaMyAccountComponent implements OnInit {
 
   Events: any[] = [];
   lessons: Lesson[] = [];
+  clientRequests: LessonRequest[] = [];
+  reviews: LessonReview[] = [];
 
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
@@ -68,14 +73,41 @@ export class SkakalkaMyAccountComponent implements OnInit {
   };
 
   constructor(private authService: AuthService, private router: Router, private bookingService: BookingService,
-              private jwtHelper: JwtHelperService, public dialog: MatDialog) {
+              private jwtHelper: JwtHelperService, public dialog: MatDialog, private trainerService: TrainerService) {
   }
 
   ngOnInit(): void {
+    this.calendarOptions.events = []
+
     this.authService.getAuthUser().subscribe({
         next: (user: User) => {
           console.log(user.birthDate);
           this.user = user;
+
+          this.bookingService.getRequestsForClient(user.id).subscribe({
+              next: requests => {
+                console.log(requests)
+                this.clientRequests = requests
+              },
+              error: (err: HttpErrorResponse) => {
+              console.log("lol " + err.error.errorMessage + err.error.errorCode)
+              alert(err.error.errorMessage)
+            }
+            }
+          )
+
+          this.trainerService.getAllTrainerReviews(user.id).subscribe({
+              next: reviews => {
+                console.log(reviews)
+                this.reviews = reviews
+              },
+              error: (err: HttpErrorResponse) => {
+                console.log("lol " + err.error.errorMessage + err.error.errorCode)
+                alert(err.error.errorMessage)
+              }
+            }
+          )
+
         }
       }
     )
@@ -103,7 +135,6 @@ export class SkakalkaMyAccountComponent implements OnInit {
         };
       }
     })
-    this.calendarOptions.events = []
 
   }
 
@@ -122,6 +153,9 @@ export class SkakalkaMyAccountComponent implements OnInit {
     });
   }
 
+  getRequestStatusById(request: LessonRequest): string | undefined {
+    return getRequestStatusById(request.status)
+  }
 }
 
 @Component({

@@ -38,5 +38,44 @@
     <full-calendar [options]="calendarOptions"></full-calendar>
   </div>
 
+
+  <mat-tab-group class="px-5 my-5 mx-2 d-flex justify-content-center" dynamicHeight>
+    <mat-tab class="d-flex justify-content-around" label="Запросы на занятие">
+
+      <mat-card style="background-color: aliceblue; min-width: 50%; max-width: 50%; left: 25%"
+                *ngFor="let request of clientRequests" class="m-4 example-card">
+        <mat-card-header>
+          <mat-card-title>{{request.date}}  ({{request.startTime}} - {{request.finishTime}})</mat-card-title>
+          <mat-card-subtitle>{{request.specialization.name}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="flex-column mx-3 mt-3">
+          <div> Спортзал: {{request.gym.name}}</div>
+          <div> Тренер: {{request.trainer.firstName}} {{request.trainer.secondName}}</div>
+          <div class="me-md-4">Комментарий: {{request.comment}}</div>
+        </mat-card-content>
+        <mat-card-footer class="my-2 mx-3 text-danger">
+          <p > статус: {{getRequestStatusById(request)}}</p>
+        </mat-card-footer>
+      </mat-card>
+
+    </mat-tab>
+
+    <mat-tab label="Отзывы">
+      <mat-card style="background-color: aliceblue; min-width: 50%; max-width: 50%;left: 25%"
+                *ngFor="let review of reviews" class="m-4 example-card">
+        <mat-card-header>
+          <mat-card-title>{{review.lesson.slot.specialization.name}} {{review.lesson.slot.date}} ({{review.lesson.slot.startTime}} - {{review.lesson.slot.finishTime}})</mat-card-title>
+          <mat-card-subtitle>{{review.author.firstName}} {{review.author.secondName}} ({{review.dateTime}})</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="flex-column mx-3 mt-3">
+          <div> Оценка: {{review.rate}}</div>
+          <div> Комментарий: {{review.comment}}</div>
+        </mat-card-content>
+        <mat-card-footer class="my-2 d-flex justify-content-around">
+        </mat-card-footer>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+
 </main>
 

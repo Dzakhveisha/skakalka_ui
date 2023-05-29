@@ -79,6 +79,14 @@ export class BookingService {
 
   }
 
+  getRequestsForClient(clientId: number): Observable<any>  {
+    return this.http.request("GET", this.lessonRequestsUrl ,
+      {
+        params: new HttpParams().set('clientId', clientId),
+        headers: this.getHeadersWithAuth()
+      });
+  }
+
   declineRequest(requestId: number): Observable<any> {
     return this.http.request("PUT", this.lessonRequestsUrl + '/' + requestId,
       { headers: this.getHeadersWithAuth()});
