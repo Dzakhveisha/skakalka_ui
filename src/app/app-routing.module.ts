@@ -13,12 +13,14 @@ import {SkakalkaMyTrainerAccountComponent} from "./skakalka-my-trainer-account/s
 import {TextChatComponent} from "./text-chat/text-chat.component";
 import {UserReviewComponent} from "./user-review/user-review.component";
 import {SkakalkaMyAdminAccountComponent} from "./skakalka-my-admin-account/skakalka-my-admin-account.component";
+import {EditAccountComponent} from "./edit-account/edit-account.component";
 
 const routes: Routes = [
   { path: '', component: SkakalkaMainComponent },
   {path: 'login', component: SkakalkaLoginComponent},
   {path: 'registr', component: SkakalkaRegistrComponent},
   {path: 'myAccount', component: SkakalkaMyAccountComponent},
+  {path: 'editAccount', component: EditAccountComponent},
   {path: 'myTrainerAccount', component: SkakalkaMyTrainerAccountComponent},
   {path: 'myAdminAccount', component: SkakalkaMyAdminAccountComponent},
   {path: 'slots', component: AvailableSlotsComponent},

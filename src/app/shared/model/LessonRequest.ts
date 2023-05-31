@@ -43,7 +43,6 @@ const requestStatuses = [
 ];
 
 export function getRequestStatusById(id: number | undefined) {
-  console.log(id)
   return requestStatuses.find(s => {
     return s.id == id;
   })?.name

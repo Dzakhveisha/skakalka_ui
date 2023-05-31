@@ -59,8 +59,7 @@ export class SkakalkaRegistrComponent {
         )
       },
       error: (err: HttpErrorResponse) => {
-        console.log("lol " + err.error.errorMessage + err.error.errorCode)
-        alert(err.error.errorMessage)
+        console.log(err)
         this.error = {
           errorMessage: err.error.errorMessage,
           errorCode: err.error.errorCode

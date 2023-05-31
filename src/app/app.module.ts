@@ -81,6 +81,7 @@ import { TextChatComponent } from './text-chat/text-chat.component';
 import {TextChatService} from "./shared/service/text-chat.service";
 import { UserReviewComponent } from './user-review/user-review.component';
 import { SkakalkaMyAdminAccountComponent } from './skakalka-my-admin-account/skakalka-my-admin-account.component';
+import { EditAccountComponent } from './edit-account/edit-account.component';
 
 // import { CalendarModule } from 'angular-calendar';
 // import { SchedulerModule } from 'angular-calendar-scheduler';
@@ -112,7 +113,8 @@ export function tokenGetter() {
     SkakalkaTrainerSlotDialog,
     TextChatComponent,
     UserReviewComponent,
-    SkakalkaMyAdminAccountComponent
+    SkakalkaMyAdminAccountComponent,
+    EditAccountComponent
   ],
   imports: [
     BrowserModule,

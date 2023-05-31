@@ -6,6 +6,8 @@ import {JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {User, UserRole} from "../model/User";
 import {TextChatService} from "./text-chat.service";
 import {LessonReview, NewLessonReview} from "../model/LessonReview";
+import {NewUser} from "../model/NewUser";
+import {Slot} from "../model/Slot";
 
 @Injectable({
   providedIn: 'root'
@@ -69,5 +71,11 @@ export class AuthService {
   createReview(review: NewLessonReview): Observable<any> {
     return this.http.request("POST", this.reviewsUrl,
       { body: review, headers: this.getHeadersWithAuth()});
+  }
+
+  updateClient(updatedUser: NewUser, id: number | undefined):Observable<any> {
+    console.log(updatedUser)
+    return this.http.request<Slot[]>("PUT", this.usersUrl + "clients/" + id, {body: updatedUser, headers: this.getHeadersWithAuth()});
+
   }
 }
