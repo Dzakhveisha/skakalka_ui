@@ -121,7 +121,7 @@ export class TrainerInfoComponent implements OnInit {
                 console.log(slots)
                 this.slots = slots;
                 slots.forEach(slot => {
-                    let color = (slot.isDeclined) ? "#707070" : "#fd9f01";
+                    let color = (slot.declined) ? "#707070" : "#fd9f01";
 
                     this.Events.push({
                       id: slot.id,
@@ -180,7 +180,7 @@ export class TrainerLessonDialog {
   constructor(public dialogRef: MatDialogRef<TrainerLessonDialog>, @Inject(MAT_DIALOG_DATA) public slot: Slot,
               private jwtHelper: JwtHelperService, private bookingService: BookingService,
               private authService: AuthService, private router: Router) {
-    this.stringStatus = (this.slot.isDeclined) ? "Отменено" : "";
+    this.stringStatus = (this.slot.declined) ? "Отменено" : "";
   }
 
   cancelLesson(): void {

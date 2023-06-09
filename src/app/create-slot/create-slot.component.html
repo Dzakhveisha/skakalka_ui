@@ -1,0 +1,81 @@
+<form (ngSubmit)="onSubmit(false)" class="container mx-5 my-5" style="margin: 3% auto!important; width: 100%">
+
+  <div class="d-flex justify-content-center mt-5 align-items-center">
+    <mat-form-field appearance="fill" class="mx-2">
+      <mat-label>Тип занятий</mat-label>
+      <mat-select (change)="onChangeSelect($event)" name="specialization" [(ngModel)]="slot.specializationId"
+                  id="specialization"
+                  aria-label=".form-select-sm example">
+        <mat-option>-</mat-option>
+        <mat-option *ngFor="let specialization of specializations" [value]="specialization.id">
+          {{specialization.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="mx-2">
+      <mat-label>Cпортзал</mat-label>
+      <mat-select (change)="onChangeSelect($event)" name="gym"
+                  [(ngModel)]="slot.gymId"
+                  id="gym">
+        <mat-option>-</mat-option>
+        <mat-option *ngFor="let gym of gyms" [value]="gym.id">
+          {{gym.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="mx-2">
+      <mat-label>Дата</mat-label>
+      <input matInput [matDatepicker]="picker" name="date" [(ngModel)]="slot.date">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <!-- #enddocregion toggle -->
+    </mat-form-field>
+  </div>
+
+  <div class="d-flex justify-content-around align-items-center">
+    <div class="flex-column text-center">
+      <div class="d-flex align-items-center">
+        <div class="mx-5">
+          <ngb-timepicker id='timeStart' name="timeStart" [(ngModel)]="timeFrom"></ngb-timepicker>
+        </div>
+        <div class="mx-5">
+          <ngb-timepicker id='timeEnd' name="timeEnd" [(ngModel)]="timeTo"></ngb-timepicker>
+        </div>
+      </div>
+      <div class="mx-1 text-muted">
+        <label>* Промежуток времени начала занятия</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center my-5 align-items-center">
+
+    <div class="flex-column mx-2">
+      <div>
+        <label class="form-label mb-0 text-muted" for="price"> Цена (руб.)</label>
+      </div>
+      <mat-slider discrete min="0" max="100" style="width: 300px">
+        <input matSliderThumb id="price" name="price" [(ngModel)]="slot.price">
+      </mat-slider>
+      {{slot.price}}
+    </div>
+
+    <div class="flex-column mx-2">
+      <div>
+        <label class="form-label text-muted mb-0" for="tRate">Количество клиентов</label>
+      </div>
+      <mat-slider discrete min="1" max="50" style="width: 300px">
+        <input matSliderThumb id="tRate" name="trainerRate" [(ngModel)]="slot.maxClientCount">
+      </mat-slider>
+      {{slot.maxClientCount}}
+    </div>
+  </div>
+
+  <div class="my-5 pb-5 d-flex justify-content-center">
+    <button type="submit" style=" background-color: #fd9f01" class="btn btn-outline-light">
+      Создать слот
+    </button>
+  </div>
+</form>

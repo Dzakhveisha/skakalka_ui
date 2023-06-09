@@ -76,7 +76,7 @@ export class SkakalkaMyAdminAccountComponent implements OnInit {
               console.log(lessons)
               this.lessons = lessons;
               lessons.forEach(lesson => {
-                  let color = (lesson.isDeclined) ? "#707070" : "#fd9f01";
+                  let color = (lesson.declined) ? "#707070" : "#fd9f01";
 
                   this.Events.push({
                     id: lesson.id,

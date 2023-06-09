@@ -14,6 +14,8 @@ import {TextChatComponent} from "./text-chat/text-chat.component";
 import {UserReviewComponent} from "./user-review/user-review.component";
 import {SkakalkaMyAdminAccountComponent} from "./skakalka-my-admin-account/skakalka-my-admin-account.component";
 import {EditAccountComponent} from "./edit-account/edit-account.component";
+import {CreateSlotComponent} from "./create-slot/create-slot.component";
+import {EditSlotComponent} from "./edit-slot/edit-slot.component";
 
 const routes: Routes = [
   { path: '', component: SkakalkaMainComponent },
@@ -30,6 +32,8 @@ const routes: Routes = [
   {path: 'trainerInfo/user/:userId', component:TrainerInfoComponent},
   {path: 'LessonRequest/:trainerId', component:LessonRequestComponent},
   {path: 'userReview/:lessonId/:userId', component:UserReviewComponent},
+  {path: 'createSlot/:trainerId', component:CreateSlotComponent},
+  {path: 'editSlot/:slotId', component: EditSlotComponent},
   {path: 'chat', component: TextChatComponent},
   {path: 'chat/:login', component: TextChatComponent}
 ];

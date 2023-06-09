@@ -12,7 +12,18 @@ export interface Slot{
   specialization: Specialization;
   maxClientCount: number;
   curClientCount:number;
-  isDeclined: boolean;
+  declined: boolean;
+  price: number;
+}
+
+export interface NewSlotRequest{
+  trainerId: number;
+  date: string;
+  startTime: string | null;
+  finishTime:string | null;
+  gymId: number;
+  specializationId: number;
+  maxClientCount: number;
   price: number;
 }
 

@@ -2,10 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {SlotCriteria} from "../model/slotCriteria";
-import {Slot} from "../model/Slot";
+import {NewSlotRequest, Slot} from "../model/Slot";
 import {Lesson} from "../model/Lesson";
 import {LessonRequestCreate} from "../model/LessonRequest";
-import {LessonReview} from "../model/LessonReview";
 
 @Injectable({
   providedIn: 'root'
@@ -70,8 +69,22 @@ export class BookingService {
 
   }
 
+  acceptLessonRequest(requestId: number, price: number): Observable<any> {
+    let params = new HttpParams()
+      .set('price', price)
+    return this.http.request("POST", this.lessonRequestsUrl + "/" + requestId,
+      {params: params, headers: this.getHeadersWithAuth()});
+
+  }
+
+  declineLessonRequest(requestId: number): Observable<any> {
+    return this.http.request("PUT", this.lessonRequestsUrl + "/" + requestId,
+      {headers: this.getHeadersWithAuth()});
+
+  }
+
   getRequestsForTrainer(trainerId: number): Observable<any> {
-    return this.http.request("GET", this.lessonRequestsUrl ,
+    return this.http.request("GET", this.lessonRequestsUrl,
       {
         params: new HttpParams().set('trainerId', trainerId),
         headers: this.getHeadersWithAuth()
@@ -79,32 +92,63 @@ export class BookingService {
 
   }
 
-  getRequestsForClient(clientId: number): Observable<any>  {
-    return this.http.request("GET", this.lessonRequestsUrl ,
+  getRequestsForClient(clientId: number): Observable<any> {
+    return this.http.request("GET", this.lessonRequestsUrl,
       {
         params: new HttpParams().set('clientId', clientId),
         headers: this.getHeadersWithAuth()
       });
   }
 
-  declineRequest(requestId: number): Observable<any> {
-    return this.http.request("PUT", this.lessonRequestsUrl + '/' + requestId,
-      { headers: this.getHeadersWithAuth()});
-
-  }
-
-  acceptRequest(requestId: number): Observable<any> {
-    return this.http.request("POST", this.lessonRequestsUrl + '/' + requestId,
-      { headers: this.getHeadersWithAuth()});
-
-  }
-
-  getRequestsForOrganisation(id: number): Observable<any>  {
-    return this.http.request("GET", this.lessonRequestsUrl ,
+  getRequestsForOrganisation(id: number): Observable<any> {
+    return this.http.request("GET", this.lessonRequestsUrl,
       {
         params: new HttpParams().set('trainerId', 1),
         headers: this.getHeadersWithAuth()
       });
 
+  }
+
+  createSlot(slot: NewSlotRequest, skipWarn: boolean): Observable<any> {
+    let params = new HttpParams()
+      .append("skipWarning", skipWarn)
+
+    return this.http.request("POST", this.slotsUrl,
+      {
+        body: slot,
+        params: params,
+        headers: this.getHeadersWithAuth()
+      });
+  }
+
+  declineSlot(slotId: number): Observable<any> {
+    // let params = new HttpParams()
+    //   .append("skipWarning", skipWarn)
+
+    return this.http.request("PUT", this.slotsUrl + '/' + slotId,
+      {
+        // params: params,
+        headers: this.getHeadersWithAuth()
+      });
+  }
+
+  getSlotById(slotId: number): Observable<Slot> {
+    return this.http.request<Slot>("GET", this.slotsUrl + '/' + slotId,
+      {
+        headers: this.getHeadersWithAuth()
+      });
+
+  }
+
+  updateSlot(slot: Slot | null, skipWarning: boolean) {
+    let params = new HttpParams()
+      .append("skipWarning", skipWarning)
+
+    return this.http.request("POST", this.slotsUrl + '/' + slot?.id,
+      {
+        body: slot,
+        params: params,
+        headers: this.getHeadersWithAuth()
+      });
   }
 }

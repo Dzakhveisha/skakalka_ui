@@ -8,6 +8,7 @@ import {TextChatService} from "./text-chat.service";
 import {LessonReview, NewLessonReview} from "../model/LessonReview";
 import {NewUser} from "../model/NewUser";
 import {Slot} from "../model/Slot";
+import {Trainer} from "../model/TrainerInfo";
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,12 @@ export class AuthService {
   updateClient(updatedUser: NewUser, id: number | undefined):Observable<any> {
     console.log(updatedUser)
     return this.http.request<Slot[]>("PUT", this.usersUrl + "clients/" + id, {body: updatedUser, headers: this.getHeadersWithAuth()});
+
+  }
+
+  updateTrainer(trainer: Trainer, id: number | undefined):Observable<any> {
+    console.log(trainer)
+    return this.http.request<Slot[]>("PUT", this.usersUrl + "trainers/" + id, {body: trainer, headers: this.getHeadersWithAuth()});
 
   }
 }

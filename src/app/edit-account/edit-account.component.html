@@ -44,6 +44,69 @@
         <input id="birthdate" name="birthdate" [(ngModel)]="updatedUser.birthdate"
                class="form-control form-control mx-auto mb-2" type="date">
       </div>
+
+      <div *ngIf="isTrainer()">
+        <h3 class="text-warning text-center my-4"> Длполнительная информация о тренере</h3>
+
+        <mat-form-field appearance="fill" class = "w-100">
+          <mat-label>Оcновной спортзал</mat-label>
+          <mat-select name="gym"
+                      [(ngModel)]="updatedTrainerInfo?.defaultGym!.id"
+                      id="gym">
+            <mat-option>-</mat-option>
+            <mat-option *ngFor="let gym of gyms" [value]="gym.id">
+              {{gym.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div>
+          <label class="form-label mb-0" for="tRate">Количество клиентов на занятии по умолчанию</label>
+        </div>
+        <mat-slider discrete min="1" max="50" style="width: 85%">
+          <input matSliderThumb id="tRate" name="trainerRate" [(ngModel)]="updatedTrainerInfo.defaultClientsCount">
+        </mat-slider>{{updatedTrainerInfo.defaultClientsCount}}
+
+        <div class="form-group w-100">
+          <label for="phone" class="form-label">Номер телефона</label>
+          <input id="phone" name="firstname" [(ngModel)]="updatedTrainerInfo.phoneNumber"
+                 class="form-control form-control mx-auto mb-2" type="text" required>
+        </div>
+
+        <div>
+          <label class="form-label mb-0" for="tRate">Опыт работы тренером (лет)</label>
+        </div>
+        <mat-slider discrete min="0" max="50" style="width: 85%">
+          <input matSliderThumb id="tRate" name="trainerRate" [(ngModel)]="updatedTrainerInfo.experience">
+        </mat-slider>{{updatedTrainerInfo.experience}}<br>
+
+        <mat-form-field appearance="fill" class = "w-100">
+          <mat-label>Спортивный разряд</mat-label>
+          <mat-select name="rank"
+                      [(ngModel)]="updatedTrainerInfo.rank"
+                      id="rank">
+            <mat-option>-</mat-option>
+            <mat-option  *ngFor="let rank of rankTypes" [value]="rank">
+              {{rank}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class = "w-100">
+          <mat-label>Образование</mat-label>
+          <mat-select name="edu"
+                      [(ngModel)]="updatedTrainerInfo.education"
+                      id="edu">
+            <mat-option>-</mat-option>
+            <mat-option *ngFor="let edu of educationTypes" [value]="edu">
+              {{edu}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+
+      </div>
+
       <div class="row p-4" *ngIf="error != null" style="color: darkred">
         {{error.errorMessage}}
       </div>

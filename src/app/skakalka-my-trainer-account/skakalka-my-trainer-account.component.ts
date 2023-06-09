@@ -15,6 +15,7 @@ import {TrainerService} from "../shared/service/trainer.service";
 import {LessonRequest} from "../shared/model/LessonRequest";
 import {LessonReview} from "../shared/model/LessonReview";
 import {HttpErrorResponse} from "@angular/common/http";
+import {getLessonStatusById} from "../shared/model/Lesson";
 
 @Component({
   selector: 'app-skakalka-my-trainer-account',
@@ -85,7 +86,7 @@ export class SkakalkaMyTrainerAccountComponent implements OnInit {
               console.log(lessons)
               this.lessons = lessons;
               lessons.forEach(lesson => {
-                  let color = (lesson.isDeclined) ? "#707070" : "#fd9f01";
+                  let color = (lesson.declined) ? "#707070" : "#fd9f01";
 
                   this.Events.push({
                     id: lesson.id,
@@ -134,16 +135,20 @@ export class SkakalkaMyTrainerAccountComponent implements OnInit {
   }
 
   viewDialog(id: number) {
-    const lesson: Slot = this.lessons.filter((obj: Slot) => {
+    const slot: Slot = this.lessons.filter((obj: Slot) => {
       return obj.id == id;
     })?.[0];
 
     this.dialog.open(SkakalkaTrainerSlotDialog, {
-      data: lesson
+      data: slot
     });
   }
 
   acceptRequest(id: number) {
+    this.bookingService.acceptLessonRequest(id, 10).subscribe({
+      next: value => {
+      }
+    })
     this.clientRequests.forEach(r => {
       if (r.id == id) {
         r.status = 2
@@ -152,6 +157,10 @@ export class SkakalkaMyTrainerAccountComponent implements OnInit {
   }
 
   declineRequest(id: number) {
+    this.bookingService.declineLessonRequest(id).subscribe({
+      next: value => {
+      }
+    })
     this.clientRequests.forEach(r => {
       if (r.id == id) {
         r.status = 3
@@ -164,7 +173,7 @@ export class SkakalkaMyTrainerAccountComponent implements OnInit {
   }
 
   createSlot() {
-
+    this.router.navigate(['createSlot/', this.trainer?.user?.id]);
   }
 }
 
@@ -176,15 +185,31 @@ export class SkakalkaTrainerSlotDialog {
   stringStatus: string | undefined;
 
   constructor(public dialogRef: MatDialogRef<SkakalkaTrainerSlotDialog>, @Inject(MAT_DIALOG_DATA) public slot: Slot,
-              private jwtHelper: JwtHelperService, private bookingService: BookingService) {
+              private router: Router, private jwtHelper: JwtHelperService, private bookingService: BookingService) {
   }
 
   cancelSlot(): void {
-
+    this.bookingService.declineSlot(this.slot.id).subscribe({
+        next: (result: boolean) => {
+          if (result) {
+            alert("Занятия для данного слота были успешно отменены.")
+            this.slot.declined = true;
+            this.stringStatus = getLessonStatusById(4)
+          } else {
+            alert("Произошла ошибка при отмене занятия!")
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log("lol " + err.error.errorMessage + err.error.errorCode)
+          alert(err.error.errorMessage)
+        }
+      }
+    )
   }
 
   editSlot() {
-
+    this.dialogRef.close()
+    this.router.navigate(["editSlot", this.slot.id]);
   }
 }
 
